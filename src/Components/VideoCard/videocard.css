@@ -1,0 +1,36 @@
+.video-card {
+  padding: 0;
+  margin: 0.9rem 0.3rem;
+  box-shadow: none;
+  border: none;
+  background-color: #f1efef;
+  max-width: 16.5rem;
+  color: #181818;
+  cursor: pointer;
+}
+.video-text-container {
+  display: flex;
+  padding: 0.2rem;
+}
+.video-text {
+  padding: 0.2rem;
+}
+.video-text h4 {
+  font-weight: 500;
+}
+
+.small {
+  font-size: small;
+  color: rgb(75, 75, 75);
+}
+.xs {
+  margin: 0.5rem 0.5rem 0 0;
+  width: 2.1rem;
+  height: 2.1rem;
+}
+@media screen and (max-width: 767px) {
+  .video-card {
+    margin-bottom: 0.5rem;
+    max-width: 23rem;
+  }
+}

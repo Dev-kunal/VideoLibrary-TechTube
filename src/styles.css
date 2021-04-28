@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  color: #181818;
+  background-color: #f1efef;
+  overflow-x: hidden;
+}
+.svg-icon {
+  fill: currentColor;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.fa,.far{
+  fill: currentColor;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+@media screen and (max-width: 767px) {
+}

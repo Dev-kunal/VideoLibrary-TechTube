@@ -1,0 +1,70 @@
+.watch-page {
+  padding: 1rem 2rem;
+  height: 100%;
+  width: 100%;
+}
+.video-frame {
+  width: 100%;
+  height: 100%;
+}
+.video-side {
+  margin-left: 6rem;
+  width: 70%;
+  height: 70vh;
+}
+.name-and-views {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  border-bottom: 1px solid grey;
+}
+.video-action-btn {
+  padding: 0.5rem;
+  margin: 0 0.2rem;
+  font-size: large;
+  border: none;
+  color: grey;
+  cursor: pointer;
+}
+.toast {
+  z-index: 2;
+  position: fixed;
+}
+.modal-container {
+  top: 0;
+  position: fixed;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: 1;
+  background-color: #fafafa;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  position: fixed;
+  width: 20rem;
+  top: 40%;
+  left: 40%;
+  z-index: 2;
+  opacity: 1;
+  padding: 2rem;
+  background: #fafafa;
+  color: #181818;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+}
+.input-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+@media screen and (max-width: 767px) {
+  .video-side {
+    width: 100%;
+    height: 23vh;
+  }
+}

@@ -1,0 +1,85 @@
+.homepage {
+  padding: 1rem;
+}
+
+.mobile-nav {
+  display: none;
+}
+.test :hover {
+  background-color: orange;
+}
+.video-container {
+  display: flex;
+  margin-left: 6rem;
+  flex-wrap: wrap;
+  background-color: #f1efef;
+  justify-content: flex-start;
+  list-style-type: none;
+}
+.sidebar {
+  position: fixed;
+  left: 0rem;
+  top: 7.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  height: 70%;
+  text-align: center;
+  color: #181818;
+}
+
+.sidebar-btn {
+  font-family: inherit;
+  margin-bottom: 2rem;
+  padding: 0.7rem 0.4rem;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  color: #181818;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.active {
+  color: var(--myColor);
+}
+
+@media screen and (max-width: 767px) {
+  .mobile-nav {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #f1efef;
+    color: #181818;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    padding: 0.2rem 0;
+  }
+  .video-container {
+    margin-left: 0rem;
+  }
+  .video-container :last-child {
+    margin-bottom: 0.5rem;
+  }
+  .xs {
+    margin: 0;
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .xs :hover {
+    background-color: grey;
+  }
+  .sidebar {
+    display: none;
+  }
+  .sidebar-btn {
+    margin-bottom: 0;
+    padding: 0;
+    text-align: center;
+  }
+}
