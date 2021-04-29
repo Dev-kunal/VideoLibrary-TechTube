@@ -16,10 +16,18 @@ body {
   width: 1.5rem;
   height: 1.5rem;
 }
-.fa,.far{
+.fa,
+.far {
   fill: currentColor;
   width: 1.5rem;
   height: 1.5rem;
 }
+.playlist-page {
+  padding: 1rem;
+  margin-left: 6rem;
+}
 @media screen and (max-width: 767px) {
+  .playlist-page {
+    margin-left: 0rem;
+  }
 }

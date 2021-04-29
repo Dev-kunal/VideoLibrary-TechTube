@@ -21,7 +21,9 @@
   text-decoration: none;
   color: inherit;
 }
-
+.nav-item:hover {
+  background-color: transparent;
+}
 .search-bar {
   width: 65%;
   padding: 0.5rem;

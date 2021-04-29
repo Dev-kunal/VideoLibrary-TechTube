@@ -17,7 +17,7 @@ export const Playlist = () => {
     return video;
   };
   return (
-    <div style={{ padding: "2rem", marginLeft: "6rem" }}>
+    <div className="playlist-page">
       <div className="sidebar">
         <NavPane />
       </div>
