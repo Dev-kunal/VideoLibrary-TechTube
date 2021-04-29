@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useVideo } from "../Context/reducer";
+import { useVideo } from "../Context/VideoProvider";
 import { NavPane } from "../Components/NavPane/NavPane";
 
 export const Playlist = () => {

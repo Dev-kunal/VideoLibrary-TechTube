@@ -1,6 +1,6 @@
 import { NavPane } from "../Components/NavPane/NavPane";
 import { useNavigate } from "react-router-dom";
-import { useVideo } from "../Context/reducer";
+import { useVideo } from "../Context/VideoProvider";
 
 export const LikedVideos = () => {
   const { likedVideos, videos } = useVideo();

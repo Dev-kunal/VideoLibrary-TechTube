@@ -5,7 +5,7 @@ import { videos } from "../../Data";
 import { useState } from "react";
 import { ActionModal } from "../ActionModal";
 import { NavPane } from "../NavPane/NavPane";
-import { useVideo } from "../../Context/reducer";
+import { useVideo } from "../../Context/VideoProvider";
 
 export const Watch = () => {
   const [isModalVisible, setModalVisibility] = useState(false);
@@ -98,7 +98,7 @@ export const Watch = () => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <div style={{ display: "flex", alignItems: "center" }}>

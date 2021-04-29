@@ -1,4 +1,4 @@
-import { useVideo } from "../../Context/reducer";
+import { useVideo } from "../../Context/VideoProvider";
 import "./playlists.css";
 import { NavPane } from "../NavPane/NavPane";
 import { useNavigate } from "react-router-dom";

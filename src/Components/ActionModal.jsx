@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useVideo } from "../Context/reducer";
+import { useVideo } from "../Context/VideoProvider";
 
 export const ActionModal = ({ setModalVisibility, isModalVisible, video }) => {
   const { playlists, dispatch, showToast, toastMessage } = useVideo();
@@ -16,11 +16,11 @@ export const ActionModal = ({ setModalVisibility, isModalVisible, video }) => {
     isInPlaylist(playlistToModify, video)
       ? dispatch({
           type: "REMOVE_FROM_PLAYLIST",
-          payload: { name: playlistToModify, url: video }
+          payload: { name: playlistToModify, url: video },
         })
       : dispatch({
           type: "ADD_TO_PLAYLIST",
-          payload: { name: playlistToModify, url: video }
+          payload: { name: playlistToModify, url: video },
         });
   };
 

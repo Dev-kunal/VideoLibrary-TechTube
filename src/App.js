@@ -1,10 +1,10 @@
-import { HomePage } from "./Components/HomePage/HomePage.";
-import { Navbar } from "./Components/Navbar/Navbar";
+import { HomePage } from "./Components";
+import { Navbar } from "./Components";
 import "./styles.css";
 import { Routes, Route } from "react-router-dom";
-import { Playlists } from "./Components/Playlists/Playlists";
-import { User } from "./Components/User/User";
-import { Watch } from "./Components/Watch/Watch";
+import { Playlists } from "./Components";
+import { User } from "./Components";
+import { Watch } from "./Components";
 import { Playlist } from "./Components/Playlist";
 import { LikedVideos } from "./Components/LikedVideos";
 
