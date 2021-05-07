@@ -1,7 +1,11 @@
 import { useRef, useState } from "react";
 import { useVideo } from "../Context/VideoProvider";
 
-export const ActionModal = ({ setModalVisibility, isModalVisible, video }) => {
+export const PlaylistModal = ({
+  setModalVisibility,
+  isModalVisible,
+  video,
+}) => {
   const { playlists, dispatch, showToast, toastMessage } = useVideo();
   const [newPlaylist, setNewPlaylist] = useState("");
   const toast = useRef(null);
@@ -32,19 +36,15 @@ export const ActionModal = ({ setModalVisibility, isModalVisible, video }) => {
     }
     setNewPlaylist("");
   };
+
   const isInPlaylist = (playlistName, vidoeUrl) => {
-    const result =
-      playlists.filter((listItem) =>
-        listItem.name === playlistName
-          ? listItem.itemsInPlaylist.includes(vidoeUrl)
-            ? true
-            : false
-          : false
-      ).length > 0
-        ? true
-        : false;
-    return result;
+    return playlists.filter(
+      (listItem) =>
+        listItem.name === playlistName &&
+        listItem.itemsInPlaylist.includes(vidoeUrl)
+    ).length;
   };
+
   return (
     <>
       <div className="modal-container"></div>
@@ -73,6 +73,7 @@ export const ActionModal = ({ setModalVisibility, isModalVisible, video }) => {
           value={newPlaylist}
           className="input line-input"
           type="text"
+          placeholder="PlaylistName"
           onChange={(event) => setNewPlaylist(event.target.value)}
         />
         <button className="btn btn-secondary" onClick={handleCreateNewPlaylist}>

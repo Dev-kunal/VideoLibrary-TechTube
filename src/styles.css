@@ -23,7 +23,6 @@ body {
 }
 .playlist-page {
   padding: 1rem;
-  margin-left: 6rem;
 }
 @media screen and (max-width: 767px) {
   .playlist-page {

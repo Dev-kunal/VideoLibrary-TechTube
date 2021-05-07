@@ -30,5 +30,8 @@
 @media screen and (max-width: 767px) {
   .playlist-container {
     margin-left: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

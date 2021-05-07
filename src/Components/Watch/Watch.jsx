@@ -3,7 +3,7 @@ import "./watch.css";
 import { useRef } from "react";
 import { videos } from "../../Data";
 import { useState } from "react";
-import { ActionModal } from "../ActionModal";
+import { PlaylistModal } from "../PlaylistModal ";
 import { NavPane } from "../NavPane/NavPane";
 import { useVideo } from "../../Context/VideoProvider";
 
@@ -22,14 +22,14 @@ export const Watch = () => {
   const { name, url, views } = videos.find(
     (video) => video.id === parseInt(videoId, 10)
   );
-  const handlePlaylistListClick = () => {
+  const showPlaylistModal = () => {
     setModalVisibility(true);
   };
   const isLiked = () => {
     return likedVideos.find((video) => video.videoUrl === url) ? true : false;
   };
 
-  const handleLikeClick = () => {
+  const likeVideo = () => {
     if (isLiked()) {
       dispatch({ type: "REMOVE_FROM_LIKE_VIDEOS", payload: { video: url } });
     } else {
@@ -60,7 +60,7 @@ export const Watch = () => {
               <small>{views} views</small>
             </div>
             <div className="video-actions">
-              <button className="video-action-btn" onClick={handleLikeClick}>
+              <button className="video-action-btn" onClick={likeVideo}>
                 {isLiked() ? (
                   <i
                     className="far fa-thumbs-up"
@@ -70,10 +70,7 @@ export const Watch = () => {
                   <i className="far fa-thumbs-up" />
                 )}
               </button>
-              <button
-                onClick={handlePlaylistListClick}
-                className="video-action-btn"
-              >
+              <button onClick={showPlaylistModal} className="video-action-btn">
                 <svg
                   class="svg-icon"
                   focusable="false"
@@ -87,7 +84,7 @@ export const Watch = () => {
           </div>
 
           {isModalVisible && (
-            <ActionModal
+            <PlaylistModal
               isModalVisible={isModalVisible}
               setModalVisibility={setModalVisibility}
               video={url}
@@ -123,6 +120,9 @@ export const Watch = () => {
           <button class="btn toast-btn">X</button>
         </div>
       )}
+      <div className="mobile-nav">
+        <NavPane />
+      </div>
     </div>
   );
 };

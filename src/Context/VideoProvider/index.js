@@ -12,6 +12,4 @@ export const VideoProvider = ({ children }) => {
   );
 };
 
-export const useVideo = () => {
-  return useContext(VideoContext);
-};
+export const useVideo = () => useContext(VideoContext);
