@@ -1,58 +1,67 @@
 import { NavPane } from "../Components/NavPane/NavPane";
 import { useNavigate } from "react-router-dom";
 import { useVideo } from "../Context/VideoProvider";
+import { useState, useEffect } from "react";
+import { UseAxios } from "../Utils/UseAxios";
+import { baseUrl } from "../Utils/ApiEndpoints";
+import Loader from "react-loader-spinner";
+import { VideoCard } from "./VideoCard/VideoCard";
 
 export const LikedVideos = () => {
-  const { likedVideos, videos } = useVideo();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { likedVideos, dispatch } = useVideo();
 
-  const getVideo = (videoUrl) => {
-    return videos.find((video) => video.url === videoUrl);
-  };
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { likedVideos } = await UseAxios("GET", baseUrl + `videos/liked`);
+        dispatch({
+          type: "SET_LIKED_VIDEOS",
+          payload: { likedVideos: likedVideos.map((video) => video.videoId) },
+        });
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
   return (
-    <div className="liked-videos-page" style={{ padding: "1rem" }}>
-      {/* <div className="video-container"> */}
-      <div className="sidebar">
-        <NavPane />
-      </div>
-      <ul className="video-container">
-        {likedVideos.length < 1
-          ? "You haven't liked any video yet"
-          : likedVideos.map(({ videoUrl }) => (
-              <div
-                className="card video-card"
-                onClick={() => navigate(`/watch/${getVideo(videoUrl).id}`)}
-              >
-                <div className="card-img">
-                  <img
-                    height="auto"
-                    width="100%"
-                    src={getVideo(videoUrl).thumbnail}
-                    alt="thumbnail"
-                  />
-                </div>
-                <div className="video-text-container">
-                  <img
-                    className="avatar-small xs"
-                    src="https://yt3.ggpht.com/ytc/AAUvwnhyHW7QINneXdZPEHNEl3kUIh7giLIaRrwk4CFXeA=s88-c-k-c0x00ffffff-no-rj"
-                    alt="Avatar"
-                  />
-                  <div className="video-text">
-                    <h4>{getVideo(videoUrl).name} </h4>
-                    <span className="small">Beebom</span>
-                    <br />
-                    <span className="small">
-                      {getVideo(videoUrl).views} views
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-      </ul>
-      {/* </div> */}
-      <div className="mobile-nav">
-        <NavPane />
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <Loader
+            type="RevolvingDot"
+            color="#2bc48a"
+            height={100}
+            width={100}
+            timeout={3000}
+          />
+        </div>
+      ) : (
+        <div className="liked-videos-page" style={{ padding: "1rem" }}>
+          <div className="sidebar">
+            <NavPane />
+          </div>
+          <ul className="video-container">
+            {likedVideos.length < 1
+              ? "You haven't liked any video yet"
+              : likedVideos.map((video) => (
+                  <li
+                    key={video._id}
+                    onClick={() => navigate(`/watch/${video._id}`)}
+                  >
+                    <VideoCard video={video} />
+                  </li>
+                ))}
+          </ul>
+
+          <div className="mobile-nav">
+            <NavPane />
+          </div>
+        </div>
+      )}
+    </>
   );
 };

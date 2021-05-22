@@ -1,89 +1,179 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useVideo } from "../Context/VideoProvider";
+import { UseAxios } from "../Utils/UseAxios.js";
+import { baseUrl } from "../Utils/ApiEndpoints";
+import { useAuth } from "../Context/UserProvider";
+import Loader from "react-loader-spinner";
 
 export const PlaylistModal = ({
   setModalVisibility,
   isModalVisible,
-  video,
+  videoId,
 }) => {
   const { playlists, dispatch, showToast, toastMessage } = useVideo();
   const [newPlaylist, setNewPlaylist] = useState("");
+  const [loading, setLoading] = useState(false);
   const toast = useRef(null);
+  const { user } = useAuth();
 
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
     }, 1000);
   }
-
-  const handlePlaylistChecked = (playlistToModify, video) => {
-    isInPlaylist(playlistToModify, video)
-      ? dispatch({
-          type: "REMOVE_FROM_PLAYLIST",
-          payload: { name: playlistToModify, url: video },
-        })
-      : dispatch({
-          type: "ADD_TO_PLAYLIST",
-          payload: { name: playlistToModify, url: video },
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { playlists } = await UseAxios("GET", baseUrl + `playlist`);
+        dispatch({
+          type: "SET_PLAYLISTS",
+          payload: { playlists: playlists },
         });
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  const addOrRemoveFromPlaylist = (playlistId, videoId, videos) => {
+    const obj = {
+      userId: user._id,
+      playlistId,
+      videoId,
+    };
+
+    isInPlaylist(videos, videoId)
+      ? // call api to remove item from playlist
+        (async () => {
+          try {
+            setLoading(true);
+            const { savedPlaylist } = await UseAxios(
+              "POST",
+              baseUrl + `playlist/removeitem`,
+              obj
+            );
+            dispatch({
+              type: "REMOVE_FROM_PLAYLIST",
+              payload: { playlistId, videoId },
+            });
+            console.log("removed item", savedPlaylist);
+            setLoading(false);
+          } catch (error) {
+            console.log(error);
+          }
+        })()
+      : (async () => {
+          try {
+            setLoading(true);
+            const { savedPlaylist } = await UseAxios(
+              "POST",
+              baseUrl + `playlist/additem`,
+              obj
+            );
+            console.log("saved item", savedPlaylist);
+            dispatch({
+              type: "ADD_TO_PLAYLIST",
+              payload: { playlistId, videoId },
+            });
+            setLoading(false);
+          } catch (error) {
+            console.log(error);
+          }
+        })();
   };
 
-  const handleCreateNewPlaylist = () => {
+  const CreateNewPlaylist = () => {
     if (newPlaylist.length > 0) {
-      dispatch({ type: "CREATE_NEW_PLAYLIST", payload: newPlaylist });
+      const obj = {
+        playlistName: newPlaylist,
+        userId: user._id,
+      };
+      (async () => {
+        try {
+          setLoading(true);
+          const { savedPlaylist } = await UseAxios(
+            "POST",
+            baseUrl + `playlist`,
+            obj
+          );
+          console.log(savedPlaylist);
+          dispatch({
+            type: "ADD_NEW_PLAYLIST",
+            payload: { newPlaylist: savedPlaylist },
+          });
+          setLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
     } else {
-      alert("Cant add empty playlist");
+      alert("Please specify a name for playlist");
     }
     setNewPlaylist("");
   };
 
-  const isInPlaylist = (playlistName, vidoeUrl) => {
-    return playlists.filter(
-      (listItem) =>
-        listItem.name === playlistName &&
-        listItem.itemsInPlaylist.includes(vidoeUrl)
-    ).length;
+  const isInPlaylist = (videos, videoId) => {
+    return videos.filter((video) => video._id === videoId).length;
   };
 
   return (
     <>
       <div className="modal-container"></div>
-      <div class="modal">
-        <button
-          class="btn modal-btn"
-          onClick={() => setModalVisibility(!isModalVisible)}
-        >
-          X
-        </button>
-        {playlists.map((playlist) => (
-          <div className="input-box">
-            <label>
-              <input
-                onChange={() => handlePlaylistChecked(playlist.name, video)}
-                type="checkbox"
-                style={{ marginRight: "0.5rem" }}
-                defaultChecked={isInPlaylist(playlist.name, video)}
-              />
-              {playlist.name}
-            </label>
+      <>
+        {loading ? (
+          <div className="loader-container">
+            <Loader
+              type="RevolvingDot"
+              color="#2bc48a"
+              height={100}
+              width={100}
+              timeout={1000}
+            />
           </div>
-        ))}
+        ) : (
+          <div className="modal">
+            <button
+              className="btn modal-btn"
+              onClick={() => setModalVisibility(!isModalVisible)}
+            >
+              X
+            </button>
 
-        <input
-          value={newPlaylist}
-          className="input line-input"
-          type="text"
-          placeholder="PlaylistName"
-          onChange={(event) => setNewPlaylist(event.target.value)}
-        />
-        <button className="btn btn-secondary" onClick={handleCreateNewPlaylist}>
-          + Create New Playlist
-        </button>
-      </div>
+            {playlists.map(({ _id, playlistName, videos }) => (
+              <div className="input-box" key={_id}>
+                <label>
+                  <input
+                    onChange={() =>
+                      addOrRemoveFromPlaylist(_id, videoId, videos)
+                    }
+                    type="checkbox"
+                    style={{ marginRight: "0.5rem" }}
+                    defaultChecked={isInPlaylist(videos, videoId)}
+                  />
+                  {playlistName}
+                </label>
+              </div>
+            ))}
+            <input
+              value={newPlaylist}
+              className="input line-input"
+              type="text"
+              placeholder="PlaylistName"
+              onChange={(event) => setNewPlaylist(event.target.value)}
+            />
+            <button className="btn btn-secondary" onClick={CreateNewPlaylist}>
+              + Create New Playlist
+            </button>
+          </div>
+        )}
+      </>
+
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </>

@@ -7,6 +7,9 @@ import { User } from "./Components";
 import { Watch } from "./Components";
 import { Playlist } from "./Components/Playlist";
 import { LikedVideos } from "./Components/LikedVideos";
+import { PrivateRoute } from "./Utils/PrivateRoute";
+import { Login } from "./Components/Authentication/Login";
+import { Signup } from "./Components/Authentication/Sigup";
 
 export default function App() {
   return (
@@ -14,11 +17,13 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/playlists" element={<Playlists />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/playlists/:playlistId" element={<Playlist />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/watch/:videoId" element={<Watch />} />
-        <Route path="/likedvideos" element={<LikedVideos />} />
+        <PrivateRoute path="/playlists" element={<Playlists />} />
+        <PrivateRoute path="/user" element={<User />} />
+        <PrivateRoute path="/playlists/:playlistId" element={<Playlist />} />
+        <PrivateRoute path="/likedvideos" element={<LikedVideos />} />
       </Routes>
     </div>
   );

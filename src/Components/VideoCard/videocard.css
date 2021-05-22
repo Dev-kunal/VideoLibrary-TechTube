@@ -18,7 +18,15 @@
 .video-text h4 {
   font-weight: 500;
 }
-
+.time-stamp {
+  background: var(--bgdark);
+  color: white;
+  position: absolute;
+  bottom: 7rem;
+  right: 0rem;
+  font-size: x-small;
+  padding: 0 0.1rem;
+}
 .small {
   font-size: small;
   color: rgb(75, 75, 75);

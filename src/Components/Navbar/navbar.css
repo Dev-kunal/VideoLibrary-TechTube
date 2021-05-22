@@ -44,6 +44,11 @@
   justify-content: center;
   align-items: center;
 }
+.nav-group-baseline {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
 .user {
   margin: 0;
   width: 2rem;

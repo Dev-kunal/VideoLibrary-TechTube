@@ -10,7 +10,7 @@ export const NavPane = () => {
       </NavLink>
       <NavLink to="/playlists" className="sidebar-btn" active="true">
         <svg
-          class="svg-icon"
+          className="svg-icon"
           focusable="false"
           viewBox="0 0 24 24"
           aria-hidden="true"
@@ -22,7 +22,7 @@ export const NavPane = () => {
       </NavLink>
       <NavLink to="/likedvideos" className="sidebar-btn" active="true">
         <svg
-          class="svg-icon"
+          className="svg-icon"
           focusable="false"
           viewBox="0 0 24 24"
           aria-hidden="true"

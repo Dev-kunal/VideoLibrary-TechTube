@@ -1,62 +1,68 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useVideo } from "../Context/VideoProvider";
 import { NavPane } from "../Components/NavPane/NavPane";
+import { useEffect, useState } from "react";
+import { UseAxios } from "./../Utils/UseAxios";
+import { baseUrl } from "./../Utils/ApiEndpoints";
+import Loader from "react-loader-spinner";
+import { VideoCard } from "../Components/VideoCard/VideoCard";
 
 export const Playlist = () => {
-  const { playlists, videos } = useVideo();
   const { playlistId } = useParams();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [itemsInPlaylist, setItemsInPlaylist] = useState(null);
 
-  const videosInPlaylist = playlists.find(
-    (playlist) => playlist.id === +playlistId
-  )?.itemsInPlaylist;
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const { playlist } = await UseAxios(
+          "GET",
+          baseUrl + `playlist/${playlistId}`
+        );
+        console.log(playlist);
+        setItemsInPlaylist(playlist.videos);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
-  console.log(videosInPlaylist);
-  const getVideo = (videoUrl) => {
-    return videos.find((video) => video.url === videoUrl);
-  };
   return (
-    <div className="playlist-page">
-      <div className="sidebar">
-        <NavPane />
-      </div>
-      <ul className="video-container">
-        {videosInPlaylist.length < 1
-          ? "You haven't add any video in this playlist"
-          : videosInPlaylist.map((videoUrl) => (
-              <div
-                className="card video-card"
-                onClick={() => navigate(`/watch/${getVideo(videoUrl).id}`)}
-              >
-                <div className="card-img">
-                  <img
-                    height="auto"
-                    width="100%"
-                    src={getVideo(videoUrl).thumbnail}
-                    alt="thumbnail"
-                  />
-                </div>
-                <div className="video-text-container">
-                  <img
-                    className="avatar-small xs"
-                    src="https://yt3.ggpht.com/ytc/AAUvwnhyHW7QINneXdZPEHNEl3kUIh7giLIaRrwk4CFXeA=s88-c-k-c0x00ffffff-no-rj"
-                    alt="Avatar"
-                  />
-                  <div className="video-text">
-                    <h4>{getVideo(videoUrl).name} </h4>
-                    <span className="small">Beebom</span>
-                    <br />
-                    <span className="small">
-                      {getVideo(videoUrl).views} views
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-      </ul>
-      <div className="mobile-nav">
-        <NavPane />
-      </div>
-    </div>
+    <>
+      {loading ? (
+        <div className="loader-container">
+          <Loader
+            type="RevolvingDot"
+            color="#2bc48a"
+            height={100}
+            width={100}
+            timeout={3000}
+          />
+        </div>
+      ) : (
+        <div className="playlist-page">
+          <div className="sidebar">
+            <NavPane />
+          </div>
+          <ul className="video-container">
+            {itemsInPlaylist?.length < 1
+              ? "You haven't add any video in this playlist"
+              : itemsInPlaylist?.map((video) => (
+                  <li
+                    key={video._id}
+                    onClick={() => navigate(`/watch/${video._id}`)}
+                  >
+                    <VideoCard video={video} />
+                  </li>
+                ))}
+          </ul>
+          <div className="mobile-nav">
+            <NavPane />
+          </div>
+        </div>
+      )}
+    </>
   );
 };

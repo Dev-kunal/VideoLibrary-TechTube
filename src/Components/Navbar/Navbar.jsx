@@ -1,10 +1,12 @@
 import { useState } from "react";
 import "./navbar.css";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../Context/UserProvider";
 
 export const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const { login } = useAuth();
   const handleSearchClick = (searchTerm) => {
     // make search according to searchTerm
     setShowSearch(!showSearch);
@@ -33,7 +35,7 @@ export const Navbar = () => {
           style={{ fontFamily: "Arial,FontAwesome", color: "#181818" }}
         />
       )}
-      <div className="nav-group">
+      <div className={login ? "nav-group" : "nav-group-baseline"}>
         <div className="nav-item">
           <button
             className="search-btn"
@@ -44,13 +46,17 @@ export const Navbar = () => {
           </button>
         </div>
         <div>
-          <Link to="/user">
-            <img
-              className="avatar-small xs user"
-              src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png"
-              alt="Avatar"
-            />
-          </Link>
+          {login ? (
+            <Link to="/user">
+              <img
+                className="avatar-small xs user"
+                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png"
+                alt="Avatar"
+              />
+            </Link>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
         </div>
       </div>
     </div>
