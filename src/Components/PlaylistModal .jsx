@@ -25,10 +25,10 @@ export const PlaylistModal = ({
     (async () => {
       try {
         setLoading(true);
-        const { playlists } = await UseAxios("GET", baseUrl + `playlist`);
+        const { playlists } = await UseAxios("GET", `${baseUrl}/playlist`);
         dispatch({
           type: "SET_PLAYLISTS",
-          payload: { playlists: playlists },
+          payload: { playlists },
         });
         setLoading(false);
       } catch (error) {
@@ -43,22 +43,22 @@ export const PlaylistModal = ({
       playlistId,
       videoId,
     };
-
     isInPlaylist(videos, videoId)
-      ? // call api to remove item from playlist
-        (async () => {
+      ? (async () => {
           try {
             setLoading(true);
-            const { savedPlaylist } = await UseAxios(
+            const response = await UseAxios(
               "POST",
-              baseUrl + `playlist/removeitem`,
+              `${baseUrl}/playlist/removeitem`,
               obj
             );
-            dispatch({
-              type: "REMOVE_FROM_PLAYLIST",
-              payload: { playlistId, videoId },
-            });
-            console.log("removed item", savedPlaylist);
+
+            if (response.success) {
+              dispatch({
+                type: "REMOVE_FROM_PLAYLIST",
+                payload: { playlistId, videoId },
+              });
+            }
             setLoading(false);
           } catch (error) {
             console.log(error);
@@ -67,19 +67,21 @@ export const PlaylistModal = ({
       : (async () => {
           try {
             setLoading(true);
-            const { savedPlaylist } = await UseAxios(
-              "POST",
-              baseUrl + `playlist/additem`,
-              obj
-            );
-            console.log("saved item", savedPlaylist);
-            dispatch({
-              type: "ADD_TO_PLAYLIST",
-              payload: { playlistId, videoId },
-            });
+            const {
+              success,
+              savedPlaylist: { videos },
+            } = await UseAxios("POST", `${baseUrl}/playlist/additem`, obj);
+
+            if (success) {
+              dispatch({
+                type: "ADD_TO_PLAYLIST",
+                payload: { playlistId, videoId },
+              });
+            }
             setLoading(false);
           } catch (error) {
             console.log(error);
+            setLoading(false);
           }
         })();
   };
@@ -95,10 +97,10 @@ export const PlaylistModal = ({
           setLoading(true);
           const { savedPlaylist } = await UseAxios(
             "POST",
-            baseUrl + `playlist`,
+            `${baseUrl}/playlist`,
             obj
           );
-          console.log(savedPlaylist);
+
           dispatch({
             type: "ADD_NEW_PLAYLIST",
             payload: { newPlaylist: savedPlaylist },
@@ -115,7 +117,8 @@ export const PlaylistModal = ({
   };
 
   const isInPlaylist = (videos, videoId) => {
-    return videos.filter((video) => video._id === videoId).length;
+    return videos.filter((video) => video._id === videoId || video === videoId)
+      .length;
   };
 
   return (
@@ -140,7 +143,6 @@ export const PlaylistModal = ({
             >
               X
             </button>
-
             {playlists.map(({ _id, playlistName, videos }) => (
               <div className="input-box" key={_id}>
                 <label>

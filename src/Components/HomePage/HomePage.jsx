@@ -16,8 +16,8 @@ export const HomePage = () => {
     (async () => {
       try {
         setLoading(true);
-        const { videos } = await UseAxios("GET", baseUrl + `videos`);
-        console.log(videos);
+        const { videos } = await UseAxios("GET", `${baseUrl}/videos`);
+
         dispatch({
           type: "SET_VIDEOS",
           payload: { videos: videos },

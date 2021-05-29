@@ -16,7 +16,10 @@ export const LikedVideos = () => {
     (async () => {
       try {
         setLoading(true);
-        const { likedVideos } = await UseAxios("GET", baseUrl + `videos/liked`);
+        const { likedVideos } = await UseAxios(
+          "GET",
+          `${baseUrl}/videos/liked`
+        );
         dispatch({
           type: "SET_LIKED_VIDEOS",
           payload: { likedVideos: likedVideos.map((video) => video.videoId) },

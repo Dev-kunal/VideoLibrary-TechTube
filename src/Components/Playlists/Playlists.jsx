@@ -12,18 +12,12 @@ export const Playlists = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const getFirstVideo = (playlist) => playlist.itemsInPlaylist[0];
-
-  const getThumbnail = (videoUrl) => {
-    return videos.find((video) => video.url === videoUrl)?.thumbnail;
-  };
-
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const { playlists } = await UseAxios("GET", baseUrl + `playlist`);
-        console.log("playlists===>", playlists);
+        const { playlists } = await UseAxios("GET", `${baseUrl}/playlist`);
+        console.log(playlists);
         dispatch({
           type: "SET_PLAYLISTS",
           payload: { playlists: playlists },
@@ -53,38 +47,40 @@ export const Playlists = () => {
             <NavPane />
           </div>
           <ul className="video-container">
-            {playlists.map((playlist) => (
-              <li key={playlist._id}>
-                <div
-                  className="card video-card"
-                  onClick={() => navigate(`/playlists/${playlist._id}`)}
-                >
-                  <img
-                    src={
-                      playlist.videos.length < 1
-                        ? "https://d2uolguxr56s4e.cloudfront.net/img/kartrapages/video_player_placeholder.gif"
-                        : playlist.videos[0].thumbnail
-                    }
-                    alt="thumbanil"
-                    height="auto"
-                    width="100%"
-                  />
-                  <div className="playlist-count">
-                    <span>{playlist.videos.length}</span>
-                    <svg
-                      className="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
+            {playlists.length < 1
+              ? "T=YOuve not created any playlist"
+              : playlists.map((playlist) => (
+                  <li key={playlist._id}>
+                    <div
+                      className="card video-card"
+                      onClick={() => navigate(`/playlists/${playlist._id}`)}
                     >
-                      <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"></path>
-                    </svg>
-                  </div>
-                  <div className="video-overlay"></div>
-                  <h4>{playlist.playlistName}</h4>
-                </div>
-              </li>
-            ))}
+                      <img
+                        src={
+                          playlist.videos.length < 1
+                            ? "https://d2uolguxr56s4e.cloudfront.net/img/kartrapages/video_player_placeholder.gif"
+                            : playlist.videos[0].thumbnail
+                        }
+                        alt="thumbanil"
+                        height="auto"
+                        width="100%"
+                      />
+                      <div className="playlist-count">
+                        <span>{playlist.videos.length}</span>
+                        <svg
+                          className="MuiSvgIcon-root"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"></path>
+                        </svg>
+                      </div>
+                      <div className="video-overlay"></div>
+                      <h4>{playlist.playlistName}</h4>
+                    </div>
+                  </li>
+                ))}
           </ul>
 
           <div className="mobile-nav">

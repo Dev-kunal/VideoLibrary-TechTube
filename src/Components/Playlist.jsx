@@ -18,7 +18,7 @@ export const Playlist = () => {
         setLoading(true);
         const { playlist } = await UseAxios(
           "GET",
-          baseUrl + `playlist/${playlistId}`
+          `${baseUrl}/playlist/${playlistId}`
         );
         console.log(playlist);
         setItemsInPlaylist(playlist.videos);

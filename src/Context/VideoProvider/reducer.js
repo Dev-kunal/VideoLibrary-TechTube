@@ -42,7 +42,6 @@ export const videoReducer = (state, { type, payload }) => {
         playlists: [...state.playlists, payload.newPlaylist],
       };
     case "ADD_TO_PLAYLIST":
-      console.log("add to playlist ", payload.videoId);
       return {
         ...state,
         showToast: true,
@@ -73,26 +72,6 @@ export const videoReducer = (state, { type, payload }) => {
             : playlist
         ),
       };
-    // case "ADD_TO_LIKE_VIDEOS":
-    //   return {
-    //     ...state,
-    //     showToast: true,
-    //     toastMessage: "Video Added to Liked Videos",
-    //     likedVideos: [
-    //       ...state.likedVideos,
-    //       { id: idCount++, videoUrl: payload.video },
-    //     ],
-    //   };
-
-    // case "REMOVE_FROM_LIKE_VIDEOS":
-    //   return {
-    //     ...state,
-    //     showToast: true,
-    //     toastMessage: "Video removed from Liked Videos",
-    //     likedVideos: state.likedVideos.filter(
-    //       (video) => video.videoUrl !== payload.video
-    //     ),
-    //   };
     case "SHOW_TOAST":
       return {
         ...state,

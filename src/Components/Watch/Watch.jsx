@@ -29,18 +29,18 @@ export const Watch = () => {
     setModalVisibility(true);
   };
 
-  const likeVideo = (likeStatus) => {
+  const likeVideo = () => {
     const obj = {
       userId: user._id,
       videoId,
     };
-    // like/unlike video
+
     (async () => {
       try {
         setLoading(true);
         const { liked } = await UseAxios(
           "POST",
-          baseUrl + `videos/likeunlike`,
+          `${baseUrl}/videos/likeunlike`,
           obj
         );
         console.log("liked or not", liked);
@@ -76,21 +76,23 @@ export const Watch = () => {
   };
 
   useEffect(() => {
+    console.log("From Effect");
     (async () => {
       try {
         setLoading(true);
         const { video, isLiked } = await UseAxios(
           "GET",
-          baseUrl + `videos/${videoId}`
+          `${baseUrl}/videos/${videoId}`
         );
-        setVideo(modifyVideo(video, isLiked));
         console.log(video, isLiked);
+        setVideo(modifyVideo(video, isLiked));
         setLoading(false);
       } catch (error) {
         console.log(error);
       }
     })();
   }, []);
+
   const modifyVideo = (video, isLiked) => {
     return { ...video, isLiked };
   };
@@ -135,7 +137,7 @@ export const Watch = () => {
                 <div className="video-actions">
                   <button
                     className="video-action-btn"
-                    onClick={() => likeVideo(isLiked)}
+                    onClick={() => likeVideo()}
                   >
                     {isLiked ? (
                       <i
