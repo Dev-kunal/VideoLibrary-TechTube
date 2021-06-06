@@ -41,7 +41,7 @@ export const Login = () => {
     const obj = userDetails;
     (async () => {
       try {
-        const response = await UseAxios("POST", baseUrl + `user/login`, obj);
+        const response = await UseAxios("POST", baseUrl + `/user/login`, obj);
         console.log(response);
         if (!response.success) {
           dispatch({
@@ -79,12 +79,12 @@ export const Login = () => {
           onSubmit={(event) => handleFormSubmit(event)}
           className="auth-form"
         >
-          <div class="input-group">
-            <label class="input-label" for="input-uname">
+          <div className="input-group">
+            <label className="input-label" htmlFor="input-uname">
               Username
             </label>
             <input
-              class="input input-lg"
+              className="input input-lg"
               type="text"
               id="input-uname"
               placeholder="username"
@@ -94,12 +94,12 @@ export const Login = () => {
               onChange={(event) => handleInputChange(event)}
             />
           </div>
-          <div class="input-group">
-            <label class="input-label" for="input-pass">
+          <div className="input-group">
+            <label className="input-label" htmlFor="input-pass">
               Password
             </label>
             <input
-              class="input input-lg"
+              className="input input-lg"
               type="password"
               id="input-pass"
               placeholder="password"
