@@ -47,7 +47,7 @@
   align-items: center;
 }
 .modal {
-  max-width: 20rem;
+  min-width: 20rem;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -60,6 +60,11 @@
   box-shadow: none;
   display: flex;
   flex-direction: column;
+}
+.modal-btn {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 .input-box {
   display: flex;
@@ -82,5 +87,8 @@
   .avatar-small {
     height: 2rem;
     width: 2rem;
+  }
+  .modal {
+    min-width: 15rem;
   }
 }
