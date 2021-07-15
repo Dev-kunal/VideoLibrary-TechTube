@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./watch.css";
-import { baseUrl } from "../../Utils/ApiEndpoints";
 import { useState, useEffect, useRef } from "react";
 import { PlaylistModal } from "../PlaylistModal ";
 import { NavPane } from "../NavPane/NavPane";

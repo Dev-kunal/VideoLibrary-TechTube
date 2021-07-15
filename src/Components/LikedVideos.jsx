@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useVideo } from "../Context/VideoProvider";
 import { useState, useEffect } from "react";
 import { UseAxios } from "../Utils/UseAxios";
-import { baseUrl } from "../Utils/ApiEndpoints";
 import Loader from "react-loader-spinner";
 import { VideoCard } from "./VideoCard/VideoCard";
 

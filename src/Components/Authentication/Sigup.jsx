@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./auth.css";
 import { UseAxios } from "../../Utils/UseAxios";
-import { baseUrl } from "../../Utils/ApiEndpoints";
 import { useVideo } from "../../Context/VideoProvider";
 import Loader from "react-loader-spinner";
 export const Signup = () => {
