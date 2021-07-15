@@ -134,7 +134,7 @@ export const Signup = () => {
               value={userDetails.password}
             />
           </div>
-          <button type="submit" className="btn btn-lg">
+          <button type="submit" className="btn auth-btn">
             Sign-Up
           </button>
           <br />

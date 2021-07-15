@@ -116,7 +116,7 @@ export const Login = () => {
               onChange={(event) => handleInputChange(event)}
             />
           </div>
-          <button type="submit" className="btn btn-lg">
+          <button type="submit" className="btn auth-btn">
             Login
           </button>
           <br />
