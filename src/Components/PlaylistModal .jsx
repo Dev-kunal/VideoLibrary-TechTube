@@ -1,8 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useVideo } from "../Context/VideoProvider";
 import { UseAxios } from "../Utils/UseAxios.js";
-import { baseUrl } from "../Utils/ApiEndpoints";
-import { useAuth } from "../Context/UserProvider";
+
 import Loader from "react-loader-spinner";
 
 export const PlaylistModal = ({
@@ -14,7 +13,6 @@ export const PlaylistModal = ({
   const [newPlaylist, setNewPlaylist] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useRef(null);
-  const { user } = useAuth();
 
   if (showToast) {
     setTimeout(() => {
@@ -25,7 +23,7 @@ export const PlaylistModal = ({
     (async () => {
       try {
         setLoading(true);
-        const { playlists } = await UseAxios("GET", `${baseUrl}/playlist`);
+        const { playlists } = await UseAxios("GET", `/playlist`);
         dispatch({
           type: "SET_PLAYLISTS",
           payload: { playlists },
@@ -36,10 +34,9 @@ export const PlaylistModal = ({
       }
     })();
   }, []);
-
+  useEffect(() => {}, [playlists]);
   const addOrRemoveFromPlaylist = (playlistId, videoId, videos) => {
     const obj = {
-      userId: user._id,
       playlistId,
       videoId,
     };
@@ -47,18 +44,26 @@ export const PlaylistModal = ({
       ? (async () => {
           try {
             setLoading(true);
-            const response = await UseAxios(
+            const { success, savedPlaylist, message } = await UseAxios(
               "POST",
-              `${baseUrl}/playlist/removeitem`,
+              `/playlist/removeitem`,
               obj
             );
 
-            if (response.success) {
+            if (!success) {
               dispatch({
-                type: "REMOVE_FROM_PLAYLIST",
-                payload: { playlistId, videoId },
+                type: "SHOW_TOAST",
+                payload: { message },
               });
             }
+            // dispatch({
+            //   type: "REMOVE_FROM_PLAYLIST",
+            //   payload: { playlistId, videoId },
+            // });
+            dispatch({
+              type: "REMOVE_FROM_PLAYLIST",
+              payload: { savedPlaylist },
+            });
             setLoading(false);
           } catch (error) {
             console.log(error);
@@ -67,18 +72,28 @@ export const PlaylistModal = ({
       : (async () => {
           try {
             setLoading(true);
-            const {
-              success,
-              savedPlaylist: { videos },
-            } = await UseAxios("POST", `${baseUrl}/playlist/additem`, obj);
-
-            if (success) {
+            const { success, savedPlaylist, message } = await UseAxios(
+              "POST",
+              `/playlist/additem`,
+              obj
+            );
+            console.log("after adding the item", savedPlaylist);
+            setLoading(false);
+            if (!success) {
               dispatch({
-                type: "ADD_TO_PLAYLIST",
-                payload: { playlistId, videoId },
+                type: "SHOW_TOAST",
+                payload: { message },
               });
             }
-            setLoading(false);
+            // dispatch({
+            //   type: "ADD_TO_PLAYLIST",
+            //   payload: { playlistId, videoId },
+            // });
+            dispatch({
+              type: "ADD_TO_PLAYLIST",
+              payload: { savedPlaylist },
+            });
+            setModalVisibility(!isModalVisible);
           } catch (error) {
             console.log(error);
             setLoading(false);
@@ -90,17 +105,11 @@ export const PlaylistModal = ({
     if (newPlaylist.length > 0) {
       const obj = {
         playlistName: newPlaylist,
-        userId: user._id,
       };
       (async () => {
         try {
           setLoading(true);
-          const { savedPlaylist } = await UseAxios(
-            "POST",
-            `${baseUrl}/playlist`,
-            obj
-          );
-
+          const { savedPlaylist } = await UseAxios("POST", `/playlist`, obj);
           dispatch({
             type: "ADD_NEW_PLAYLIST",
             payload: { newPlaylist: savedPlaylist },
@@ -117,7 +126,7 @@ export const PlaylistModal = ({
   };
 
   const isInPlaylist = (videos, videoId) => {
-    return videos.filter((video) => video._id === videoId || video === videoId)
+    return videos.filter((video) => video === videoId || video._id === videoId)
       .length;
   };
 

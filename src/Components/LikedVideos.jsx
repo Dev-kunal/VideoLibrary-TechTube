@@ -16,10 +16,7 @@ export const LikedVideos = () => {
     (async () => {
       try {
         setLoading(true);
-        const { likedVideos } = await UseAxios(
-          "GET",
-          `${baseUrl}/videos/liked`
-        );
+        const { likedVideos } = await UseAxios("GET", `/videos/liked`);
         dispatch({
           type: "SET_LIKED_VIDEOS",
           payload: { likedVideos: likedVideos.map((video) => video.videoId) },
@@ -48,16 +45,18 @@ export const LikedVideos = () => {
             <NavPane />
           </div>
           <ul className="video-container">
-            {likedVideos.length < 1
-              ? "You haven't liked any video yet"
-              : likedVideos.map((video) => (
-                  <li
-                    key={video._id}
-                    onClick={() => navigate(`/watch/${video._id}`)}
-                  >
-                    <VideoCard video={video} />
-                  </li>
-                ))}
+            {likedVideos.length < 1 ? (
+              <div className="mesg">You've not like a video yet</div>
+            ) : (
+              likedVideos.map((video) => (
+                <li
+                  key={video._id}
+                  onClick={() => navigate(`/watch/${video._id}`)}
+                >
+                  <VideoCard video={video} />
+                </li>
+              ))
+            )}
           </ul>
 
           <div className="mobile-nav">

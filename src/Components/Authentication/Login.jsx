@@ -1,7 +1,10 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { UseAxios } from "../../Utils/UseAxios";
-import { baseUrl } from "../../Utils/ApiEndpoints";
+import {
+  UseAxios,
+  saveDataToLocalStorage,
+  setAuthForServiceCalls,
+} from "../../Utils/UseAxios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import "./auth.css";
@@ -11,13 +14,13 @@ import { useVideo } from "../../Context/VideoProvider";
 export const Login = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { login, userDispatch } = useAuth();
+  const { userDispatch } = useAuth();
   const toast = useRef(null);
   const { showToast, toastMessage, dispatch } = useVideo();
   if (showToast) {
     setTimeout(() => {
       dispatch({ type: "HIDE_TOAST" });
-    }, 1000);
+    }, 2000);
   }
 
   const [userDetails, setUserDetails] = useState({
@@ -38,22 +41,26 @@ export const Login = () => {
   const handleFormSubmit = (event) => {
     setLoading(true);
     event.preventDefault();
-    const obj = userDetails;
     (async () => {
       try {
-        const response = await UseAxios("POST", baseUrl + `/user/login`, obj);
-        console.log(response);
-        if (!response.success) {
+        const { success, message, token, user } = await UseAxios(
+          "POST",
+          `/user/login`,
+          userDetails
+        );
+        console.log(token);
+        if (!success) {
           dispatch({
             type: "SHOW_TOAST",
-            payload: { message: "Enter Correct Username and Password" },
+            payload: { message: message },
           });
           setLoading(false);
         } else {
-          localStorage.setItem("user", JSON.stringify(response.user));
+          saveDataToLocalStorage(token, user);
+          setAuthForServiceCalls(token);
           userDispatch({
             type: "SET_LOGIN",
-            payload: { user: response.user, login: true },
+            payload: { user, token },
           });
           setUserDetails({
             username: "",

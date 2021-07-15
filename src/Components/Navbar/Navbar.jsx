@@ -6,7 +6,7 @@ import { useAuth } from "../../Context/UserProvider";
 export const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const { login } = useAuth();
+  const { token } = useAuth();
   const handleSearchClick = (searchTerm) => {
     // make search according to searchTerm
     setShowSearch(!showSearch);
@@ -35,7 +35,7 @@ export const Navbar = () => {
           style={{ fontFamily: "Arial,FontAwesome", color: "#181818" }}
         />
       )}
-      <div className={login ? "nav-group" : "nav-group-baseline"}>
+      <div className={token ? "nav-group" : "nav-group-baseline"}>
         <div className="nav-item">
           <button
             className="search-btn"
@@ -46,7 +46,7 @@ export const Navbar = () => {
           </button>
         </div>
         <div>
-          {login ? (
+          {token ? (
             <Link to="/user">
               <img
                 className="avatar-small xs user"

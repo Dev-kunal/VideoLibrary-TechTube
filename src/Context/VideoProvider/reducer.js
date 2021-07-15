@@ -41,20 +41,41 @@ export const videoReducer = (state, { type, payload }) => {
         ...state,
         playlists: [...state.playlists, payload.newPlaylist],
       };
+    case "DELETE_PLAYLIST":
+      return {
+        ...state,
+        showToast: true,
+        toastMessage: "Playlist Deleted Successfully",
+        playlists: state.playlists.filter(
+          (item) => item._id != payload.playlistId
+        ),
+      };
+    // case "ADD_TO_PLAYLIST":
+    //   return {
+    //     ...state,
+    //     showToast: true,
+    //     toastMessage: `Video Added to Playlist`,
+    //     playlists: state.playlists.map((playlist) =>
+    //       playlist._id === payload.playlistId
+    //         ? {
+    //             ...playlist,
+    //             videos: playlist.videos.concat(payload.videoId),
+    //           }
+    //         : playlist
+    //     ),
+    //   };
     case "ADD_TO_PLAYLIST":
       return {
         ...state,
         showToast: true,
         toastMessage: `Video Added to Playlist`,
         playlists: state.playlists.map((playlist) =>
-          playlist._id === payload.playlistId
-            ? {
-                ...playlist,
-                videos: [...playlist.videos, payload.videoId],
-              }
+          playlist._id === payload.savedPlaylist._id
+            ? payload.savedPlaylist
             : playlist
         ),
       };
+
     case "REMOVE_FROM_PLAYLIST":
       console.log("remove from playlist", payload.videoId);
       return {
@@ -62,16 +83,28 @@ export const videoReducer = (state, { type, payload }) => {
         showToast: true,
         toastMessage: `Video Removed from Playlist`,
         playlists: state.playlists.map((playlist) =>
-          playlist._id === payload.playlistId
-            ? {
-                ...playlist,
-                videos: playlist.videos.filter(
-                  (video) => video._id != payload.videoId
-                ),
-              }
+          playlist._id === payload.savedPlaylist._id
+            ? payload.savedPlaylist
             : playlist
         ),
       };
+    // case "REMOVE_FROM_PLAYLIST":
+    //   console.log("remove from playlist", payload.videoId);
+    //   return {
+    //     ...state,
+    //     showToast: true,
+    //     toastMessage: `Video Removed from Playlist`,
+    //     playlists: state.playlists.map((playlist) =>
+    //       playlist._id === payload.playlistId
+    //         ? {
+    //             ...playlist,
+    //             videos: playlist.videos.filter(
+    //               (video) => video._id != payload.videoId
+    //             ),
+    //           }
+    //         : playlist
+    //     ),
+    //   };
     case "SHOW_TOAST":
       return {
         ...state,

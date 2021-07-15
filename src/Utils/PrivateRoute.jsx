@@ -2,9 +2,9 @@ import { useAuth } from "../Context/UserProvider";
 import { Route, Navigate } from "react-router-dom";
 
 export const PrivateRoute = ({ path, ...props }) => {
-  const { login } = useAuth();
+  const { token } = useAuth();
 
-  return login ? (
+  return token ? (
     <Route {...props} />
   ) : (
     <Navigate state={{ from: path }} replace={true} to="/login" />

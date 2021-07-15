@@ -1,12 +1,25 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./auth.css";
+import { UseAxios } from "../../Utils/UseAxios";
+import { baseUrl } from "../../Utils/ApiEndpoints";
+import { useVideo } from "../../Context/VideoProvider";
+import Loader from "react-loader-spinner";
 export const Signup = () => {
-  const [validation, setValidation] = useState("");
+  const [loading, setLoading] = useState(false);
+  const toast = useRef(null);
+  const { showToast, toastMessage, dispatch } = useVideo();
+  if (showToast) {
+    setTimeout(() => {
+      dispatch({ type: "HIDE_TOAST" });
+    }, 2000);
+  }
+
   const [userDetails, setUserDetails] = useState({
+    email: "",
+    fullname: "",
     username: "",
     password: "",
-    confirmPassword: "",
   });
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -18,12 +31,39 @@ export const Signup = () => {
     });
   };
   const handleFormSubmit = (event) => {
-    if (userDetails.password === userDetails.confirmPassword) {
-      // submit form
-    } else {
-      setValidation("Password and Confirm password must be same");
-      event.preventDefault();
-    }
+    event.preventDefault();
+    setLoading(true);
+    (async () => {
+      try {
+        const { success, message } = await UseAxios(
+          "POST",
+          `/user/signup`,
+          userDetails
+        );
+        console.log(success, message);
+        setLoading(false);
+        if (!success) {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: message },
+          });
+        } else {
+          dispatch({
+            type: "SHOW_TOAST",
+            payload: { message: message },
+          });
+          setUserDetails({
+            username: "",
+            password: "",
+            fullname: "",
+            email: "",
+          });
+        }
+      } catch (err) {
+        setLoading(false);
+        console.log(err);
+      }
+    })();
   };
   return (
     <div className="login-page">
@@ -35,6 +75,21 @@ export const Signup = () => {
           onSubmit={(event) => handleFormSubmit(event)}
           className="auth-form"
         >
+          <div class="input-group">
+            <label class="input-label" for="input-email">
+              Email
+            </label>
+            <input
+              class="input input-lg"
+              type="email"
+              id="input-email"
+              placeholder="user@gmail.com"
+              required
+              name="email"
+              onChange={(event) => handleInputChange(event)}
+              value={userDetails.email}
+            />
+          </div>
           <div class="input-group">
             <label class="input-label" for="input-uname">
               Username
@@ -48,6 +103,21 @@ export const Signup = () => {
               name="username"
               onChange={(event) => handleInputChange(event)}
               value={userDetails.username}
+            />
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="input-fullname">
+              Full Name
+            </label>
+            <input
+              class="input input-lg"
+              type="text"
+              id="input-fullname"
+              placeholder="Full name"
+              required
+              name="fullname"
+              onChange={(event) => handleInputChange(event)}
+              value={userDetails.fullname}
             />
           </div>
           <div class="input-group">
@@ -65,22 +135,6 @@ export const Signup = () => {
               value={userDetails.password}
             />
           </div>
-          <div class="input-group">
-            <label class="input-label" for="input-pass">
-              Confirm Password
-            </label>
-            <input
-              class="input input-lg"
-              type="password"
-              id="input-pass"
-              name="confirmPassword"
-              onChange={(event) => handleInputChange(event)}
-              value={userDetails.confirmPassword}
-              placeholder="password"
-              required
-            />
-            <small style={{ color: "red" }}>{validation}</small>
-          </div>
           <button type="submit" className="btn btn-lg">
             Sign-Up
           </button>
@@ -93,6 +147,23 @@ export const Signup = () => {
           </span>
         </form>
       </div>
+      {loading && (
+        <div className="loader-container">
+          <Loader
+            type="RevolvingDot"
+            color="#2bc48a"
+            height={100}
+            width={100}
+            timeout={2000}
+          />
+        </div>
+      )}
+      {showToast && (
+        <div className="toast toast-n" ref={toast}>
+          <p>{toastMessage}</p>
+          <button className="btn toast-btn">X</button>
+        </div>
+      )}
     </div>
   );
 };

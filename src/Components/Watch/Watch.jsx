@@ -12,8 +12,9 @@ import { useAuth } from "../../Context/UserProvider";
 export const Watch = () => {
   const [isModalVisible, setModalVisibility] = useState(false);
   const { videoId } = useParams();
-  const { dispatch, showToast, toastMessage } = useVideo();
-  const { login, user } = useAuth();
+  const { dispatch, showToast, toastMessage, likedVideos, playlists } =
+    useVideo();
+  const { token, user } = useAuth();
   const toast = useRef(null);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -28,21 +29,18 @@ export const Watch = () => {
   const showPlaylistModal = () => {
     setModalVisibility(true);
   };
+  // const videoIsLikedOrNot = (id) => {
+  //   likedVideos.some((video) => video._id === id);
+  // };
 
   const likeVideo = () => {
     const obj = {
-      userId: user._id,
       videoId,
     };
-
     (async () => {
       try {
         setLoading(true);
-        const { liked } = await UseAxios(
-          "POST",
-          `${baseUrl}/videos/likeunlike`,
-          obj
-        );
+        const { liked } = await UseAxios("POST", `/videos/likeunlike`, obj);
         console.log("liked or not", liked);
         if (liked) {
           setVideo((video) => {
@@ -67,7 +65,6 @@ export const Watch = () => {
             payload: { message: "Removed from liked videos" },
           });
         }
-
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -76,15 +73,11 @@ export const Watch = () => {
   };
 
   useEffect(() => {
-    console.log("From Effect");
     (async () => {
       try {
         setLoading(true);
-        const { video, isLiked } = await UseAxios(
-          "GET",
-          `${baseUrl}/videos/${videoId}`
-        );
-        console.log(video, isLiked);
+        const { video, isLiked } = await UseAxios("GET", `/videos/${videoId}`);
+
         setVideo(modifyVideo(video, isLiked));
         setLoading(false);
       } catch (error) {
@@ -137,7 +130,7 @@ export const Watch = () => {
                 <div className="video-actions">
                   <button
                     className="video-action-btn"
-                    onClick={() => likeVideo()}
+                    onClick={() => (token ? likeVideo() : navigate("/login"))}
                   >
                     {isLiked ? (
                       <i
@@ -150,7 +143,7 @@ export const Watch = () => {
                   </button>
                   <button
                     onClick={() =>
-                      login ? showPlaylistModal() : navigate("/login")
+                      token ? showPlaylistModal() : navigate("/login")
                     }
                     className="video-action-btn"
                   >
