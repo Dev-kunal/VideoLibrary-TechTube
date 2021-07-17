@@ -1,10 +1,7 @@
-// import { videos } from "../../Data";
-
-let idCount = 1;
 const videos = [];
 const playlists = [];
 
-const likedVideos = [{ id: idCount++, videoUrl: "Uj2Z4EohOvM" }];
+const likedVideos = [];
 const watchLater = [];
 export const initialState = {
   videos,
