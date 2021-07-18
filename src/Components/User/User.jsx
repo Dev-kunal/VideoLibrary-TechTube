@@ -9,8 +9,7 @@ export const User = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const logout = () => {
-    console.log("logout Clikced");
+  export const logout = () => {
     userDispatch({
       type: "SET_LOGIN",
       payload: { token: null, user: null },

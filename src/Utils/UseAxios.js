@@ -25,3 +25,16 @@ export const UseAxios = async (method, url, body = {}) => {
 export const saveDataToLocalStorage = (token, user) => {
   localStorage.setItem("session", JSON.stringify({ token, user }));
 };
+
+export const setupAuthExceptionHandler = (logoutUser) => {
+  const UNAUTHORIZED = 401;
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error?.response?.status === UNAUTHORIZED) {
+        logoutUser();
+      }
+      return Promise.reject(error);
+    }
+  );
+};

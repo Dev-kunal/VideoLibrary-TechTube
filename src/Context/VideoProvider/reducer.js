@@ -47,20 +47,7 @@ export const videoReducer = (state, { type, payload }) => {
           (item) => item._id != payload.playlistId
         ),
       };
-    // case "ADD_TO_PLAYLIST":
-    //   return {
-    //     ...state,
-    //     showToast: true,
-    //     toastMessage: `Video Added to Playlist`,
-    //     playlists: state.playlists.map((playlist) =>
-    //       playlist._id === payload.playlistId
-    //         ? {
-    //             ...playlist,
-    //             videos: playlist.videos.concat(payload.videoId),
-    //           }
-    //         : playlist
-    //     ),
-    //   };
+
     case "ADD_TO_PLAYLIST":
       return {
         ...state,
@@ -85,23 +72,7 @@ export const videoReducer = (state, { type, payload }) => {
             : playlist
         ),
       };
-    // case "REMOVE_FROM_PLAYLIST":
-    //   console.log("remove from playlist", payload.videoId);
-    //   return {
-    //     ...state,
-    //     showToast: true,
-    //     toastMessage: `Video Removed from Playlist`,
-    //     playlists: state.playlists.map((playlist) =>
-    //       playlist._id === payload.playlistId
-    //         ? {
-    //             ...playlist,
-    //             videos: playlist.videos.filter(
-    //               (video) => video._id != payload.videoId
-    //             ),
-    //           }
-    //         : playlist
-    //     ),
-    //   };
+
     case "SHOW_TOAST":
       return {
         ...state,
