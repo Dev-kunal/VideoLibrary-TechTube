@@ -11,12 +11,12 @@ import { PrivateRoute } from "./Utils/PrivateRoute";
 import { Login } from "./Components/Authentication/Login";
 import { Signup } from "./Components/Authentication/Sigup";
 import { useAuth } from "./Context/UserProvider";
-import { setAuthForServiceCalls } from "./Utils/UseAxios";
+import { setupAuthHeaderForServiceCalls } from "./Utils/UseAxios";
 
 export default function App() {
   const { token } = useAuth();
   if (token) {
-    setAuthForServiceCalls(token);
+    setupAuthHeaderForServiceCalls(token);
   }
 
   return (

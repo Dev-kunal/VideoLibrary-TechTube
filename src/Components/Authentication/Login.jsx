@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   UseAxios,
   saveDataToLocalStorage,
-  setAuthForServiceCalls,
+  setupAuthHeaderForServiceCalls,
 } from "../../Utils/UseAxios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "react-loader-spinner";
@@ -57,7 +57,7 @@ export const Login = () => {
           setLoading(false);
         } else {
           saveDataToLocalStorage(token, user);
-          setAuthForServiceCalls(token);
+          setupAuthHeaderForServiceCalls(token);
           userDispatch({
             type: "SET_LOGIN",
             payload: { user, token },

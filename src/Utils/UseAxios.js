@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL: "https://techtube-server.herokuapp.com",
 });
 
-export const setAuthForServiceCalls = (token) => {
+export const setupAuthHeaderForServiceCalls = (token) => {
   instance.defaults.headers.common["Authorization"] = token;
 };
 

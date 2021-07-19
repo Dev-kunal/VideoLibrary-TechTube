@@ -9,7 +9,7 @@ export const User = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  export const logout = () => {
+  const logout = () => {
     userDispatch({
       type: "SET_LOGIN",
       payload: { token: null, user: null },
