@@ -1,4 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   setupAuthExceptionHandler,
   setupAuthHeaderForServiceCalls,
@@ -14,20 +15,7 @@ const initialState = {
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [state, userDispatch] = useReducer(userReducer, initialState);
-  const logOutUser = () => {
-    localStorage.removeItem("session");
-    userDispatch({
-      type: "SET_LOGIN",
-      token: null,
-      user: null,
-    });
-    setupAuthHeaderForServiceCalls(null);
-  };
-  useEffect(() => {
-    if (token) {
-      setupAuthExceptionHandler(logOutUser);
-    }
-  }, []);
+
   return (
     <AuthContext.Provider value={{ ...state, userDispatch }}>
       {children}

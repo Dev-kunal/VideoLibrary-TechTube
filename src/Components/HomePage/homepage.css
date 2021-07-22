@@ -12,7 +12,6 @@
   display: flex;
   margin-left: 6rem;
   flex-wrap: wrap;
-  background-color: #f1efef;
   justify-content: flex-start;
   list-style-type: none;
 }

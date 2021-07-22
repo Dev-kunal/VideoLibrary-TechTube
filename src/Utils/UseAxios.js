@@ -26,13 +26,14 @@ export const saveDataToLocalStorage = (token, user) => {
   localStorage.setItem("session", JSON.stringify({ token, user }));
 };
 
-export const setupAuthExceptionHandler = (logoutUser) => {
+export const setupAuthExceptionHandler = (logoutUser, navigate) => {
   const UNAUTHORIZED = 401;
   instance.interceptors.response.use(
     (response) => response,
     (error) => {
       if (error?.response?.status === UNAUTHORIZED) {
         logoutUser();
+        navigate("login");
       }
       return Promise.reject(error);
     }

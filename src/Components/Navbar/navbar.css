@@ -38,6 +38,7 @@
 .search-btn {
   border: none;
   padding: 0.2rem;
+  background: transparent;
 }
 .nav-group {
   display: flex;
