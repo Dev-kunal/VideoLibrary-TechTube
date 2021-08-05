@@ -24,8 +24,8 @@ export const Login = () => {
   }
 
   const [userDetails, setUserDetails] = useState({
-    username: "",
-    password: "",
+    username: "raj",
+    password: "raj",
   });
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +48,7 @@ export const Login = () => {
           `/user/login`,
           userDetails
         );
-        console.log(token);
+
         if (!success) {
           dispatch({
             type: "SHOW_TOAST",

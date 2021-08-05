@@ -1,9 +1,6 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  setupAuthExceptionHandler,
-  setupAuthHeaderForServiceCalls,
-} from "../../Utils/UseAxios";
+import { createContext, useContext, useReducer } from "react";
+import { setupAuthHeaderForServiceCalls } from "../../Utils/UseAxios";
+
 const dataFromlLocalStorage = JSON.parse(localStorage.getItem("session"));
 const token = dataFromlLocalStorage ? dataFromlLocalStorage.token : null;
 const user = dataFromlLocalStorage ? dataFromlLocalStorage.user : null;
@@ -11,7 +8,7 @@ const initialState = {
   token,
   user,
 };
-
+setupAuthHeaderForServiceCalls(token);
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [state, userDispatch] = useReducer(userReducer, initialState);

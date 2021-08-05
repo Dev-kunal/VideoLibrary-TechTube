@@ -26,6 +26,7 @@ export const HomePage = () => {
         type: "SHOW_TOAST",
         payload: { message: "You'll have to login first..!" },
       });
+      navigate("/login");
     }
   };
   useEffect(() => {

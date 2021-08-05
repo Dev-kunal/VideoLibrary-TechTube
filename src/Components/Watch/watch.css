@@ -21,6 +21,9 @@
   margin-top: 1.5rem;
   border-bottom: 1px solid grey;
 }
+.video-actions {
+  display: flex;
+}
 .video-action-btn {
   padding: 0.5rem;
   margin: 0 0.2rem;

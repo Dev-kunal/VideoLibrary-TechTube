@@ -128,7 +128,7 @@ export const Watch = () => {
                 </div>
                 <div className="video-actions">
                   <button
-                    className="video-action-btn"
+                    className="btn btn-secondary"
                     onClick={() => (token ? likeVideo() : navigate("/login"))}
                   >
                     {isLiked ? (
@@ -137,14 +137,14 @@ export const Watch = () => {
                         style={{ color: "var(--myColor)", fontWeight: 800 }}
                       />
                     ) : (
-                      <i className="far fa-thumbs-up" />
+                      <i class="far fa-thumbs-up"></i>
                     )}
                   </button>
                   <button
                     onClick={() =>
                       token ? showPlaylistModal() : navigate("/login")
                     }
-                    className="video-action-btn"
+                    className="btn btn-secondary"
                   >
                     <svg
                       className="svg-icon"

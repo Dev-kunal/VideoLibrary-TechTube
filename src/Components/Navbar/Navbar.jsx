@@ -24,7 +24,7 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      {showSearch && (
+      {/* {showSearch && (
         <input
           autoFocus
           value={searchTerm}
@@ -34,9 +34,9 @@ export const Navbar = () => {
           type="text"
           style={{ fontFamily: "Arial,FontAwesome", color: "#181818" }}
         />
-      )}
+      )} */}
       <div className={token ? "nav-group" : "nav-group-baseline"}>
-        <div className="nav-item">
+        {/* <div className="nav-item">
           <button
             className="search-btn"
             onClick={() => handleSearchClick(searchTerm)}
@@ -44,7 +44,7 @@ export const Navbar = () => {
             {" "}
             <i className="fa fa-search" />
           </button>
-        </div>
+        </div> */}
         <div>
           {token ? (
             <Link to="/user">
@@ -55,7 +55,9 @@ export const Navbar = () => {
               />
             </Link>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link to="/login" className="login-link">
+              Login
+            </Link>
           )}
         </div>
       </div>

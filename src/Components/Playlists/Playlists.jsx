@@ -5,15 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
-import { useAuth } from "../../Context/UserProvider";
 
 export const Playlists = () => {
-  const { playlists, videos, dispatch } = useVideo();
+  const { playlists, dispatch } = useVideo();
   const [loading, setLoading] = useState(false);
-  const { token } = useAuth();
   const navigate = useNavigate();
 
-  // console.log(token);
   useEffect(() => {
     (async () => {
       try {
@@ -22,7 +19,6 @@ export const Playlists = () => {
           "GET",
           `/playlist`
         );
-
         setLoading(false);
         if (!success) {
           dispatch({
@@ -62,21 +58,24 @@ export const Playlists = () => {
               <div className="mesg">You've Not created any Playlist</div>
             ) : (
               playlists.map((playlist) => (
-                <li key={playlist._id}>
-                  <div
-                    className="card video-card"
-                    onClick={() => navigate(`/playlists/${playlist._id}`)}
-                  >
-                    <img
-                      src={
-                        playlist.videos.length < 1
-                          ? "https://d2uolguxr56s4e.cloudfront.net/img/kartrapages/video_player_placeholder.gif"
-                          : playlist.videos[0].thumbnail
-                      }
-                      alt="thumbanil"
-                      height="auto"
-                      width="100%"
-                    />
+                <li
+                  key={playlist._id}
+                  onClick={() => navigate(`/playlists/${playlist._id}`)}
+                >
+                  <div className="card video-card">
+                    <div className="card-img">
+                      <img
+                        src={
+                          playlist.videos.length < 1
+                            ? "https://d2uolguxr56s4e.cloudfront.net/img/kartrapages/video_player_placeholder.gif"
+                            : playlist.videos[0].thumbnail
+                        }
+                        alt="thumbanil"
+                        height="100%"
+                        width="100%"
+                      />
+                      <div className="video-overlay"></div>
+                    </div>
                     <div className="playlist-count">
                       <span>{playlist.videos.length}</span>
                       <svg
@@ -88,7 +87,7 @@ export const Playlists = () => {
                         <path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"></path>
                       </svg>
                     </div>
-                    <div className="video-overlay"></div>
+
                     <h4>{playlist.playlistName}</h4>
                   </div>
                 </li>

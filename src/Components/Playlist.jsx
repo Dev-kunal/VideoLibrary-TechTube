@@ -77,9 +77,13 @@ export const Playlist = () => {
         </div>
       ) : (
         <div className="playlist-page">
-          <div className="delete-btn">
-            <button className="btn-secondary" onClick={() => deletePlaylist()}>
-              <i class="far fa-trash-alt"></i>
+          <div className="delete-btn-div">
+            <button
+              className="btn-delete btn btn-secondary user-action-btn"
+              title="Delete Playlist"
+              onClick={() => deletePlaylist()}
+            >
+              <i className="fas fa-trash"></i> Delete Playlist
             </button>
           </div>
           <div className="sidebar">
@@ -107,9 +111,9 @@ export const Playlist = () => {
         </div>
       )}
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </>
