@@ -56,10 +56,7 @@ export const PlaylistModal = ({
                 payload: { message },
               });
             }
-            // dispatch({
-            //   type: "REMOVE_FROM_PLAYLIST",
-            //   payload: { playlistId, videoId },
-            // });
+
             dispatch({
               type: "REMOVE_FROM_PLAYLIST",
               payload: { savedPlaylist },
@@ -85,10 +82,7 @@ export const PlaylistModal = ({
                 payload: { message },
               });
             }
-            // dispatch({
-            //   type: "ADD_TO_PLAYLIST",
-            //   payload: { playlistId, videoId },
-            // });
+
             dispatch({
               type: "ADD_TO_PLAYLIST",
               payload: { savedPlaylist },

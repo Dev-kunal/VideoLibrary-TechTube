@@ -36,6 +36,13 @@
   background-color: var(--background);
   border-radius: 2px;
 }
+.line-input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom: 2px ridge var(--mygrey);
+  border-radius: 0;
+}
 .auth-btn {
   width: 90%;
   padding: 0.5rem;
