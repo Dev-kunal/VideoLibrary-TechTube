@@ -11,9 +11,9 @@
   width: 90%;
 }
 .video-side {
-  margin-left: 6rem;
+  margin-left: 8rem;
   width: 70%;
-  height: 70vh;
+  height: 72vh;
 }
 .name-and-views {
   display: flex;
@@ -23,14 +23,10 @@
 }
 .video-actions {
   display: flex;
+  max-height: 3rem;
 }
-.video-action-btn {
-  padding: 0.5rem;
-  margin: 0 0.2rem;
-  font-size: large;
-  border: none;
-  color: grey;
-  cursor: pointer;
+.btn {
+  box-shadow: none;
 }
 .toast {
   z-index: 2;
@@ -78,6 +74,10 @@
   .video-frame {
     width: 100%;
     height: 100%;
+  }
+  .btn {
+    padding: 0.1rem 0.3rem;
+    box-shadow: none;
   }
   .video-info {
     width: 100%;

@@ -17,6 +17,7 @@ export const Watch = () => {
   const toast = useRef(null);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [likeloader, setLikeLoader] = useState(false);
 
   const navigate = useNavigate();
   if (showToast) {
@@ -28,9 +29,6 @@ export const Watch = () => {
   const showPlaylistModal = () => {
     setModalVisibility(true);
   };
-  // const videoIsLikedOrNot = (id) => {
-  //   likedVideos.some((video) => video._id === id);
-  // };
 
   const likeVideo = () => {
     const obj = {
@@ -38,7 +36,7 @@ export const Watch = () => {
     };
     (async () => {
       try {
-        setLoading(true);
+        setLikeLoader(true);
         const { liked } = await UseAxios("POST", `/videos/likeunlike`, obj);
         console.log("liked or not", liked);
         if (liked) {
@@ -64,7 +62,7 @@ export const Watch = () => {
             payload: { message: "Removed from liked videos" },
           });
         }
-        setLoading(false);
+        setLikeLoader(false);
       } catch (error) {
         console.log(error);
       }
@@ -131,13 +129,28 @@ export const Watch = () => {
                     className="btn btn-secondary"
                     onClick={() => (token ? likeVideo() : navigate("/login"))}
                   >
-                    {isLiked ? (
-                      <i
-                        className="far fa-thumbs-up"
-                        style={{ color: "var(--myColor)", fontWeight: 800 }}
-                      />
-                    ) : (
-                      <i class="far fa-thumbs-up"></i>
+                    {likeloader && (
+                      <div className="btn-container">
+                        <Loader
+                          type="ThreeDots"
+                          color="#2bc48a"
+                          height={10}
+                          width={20}
+                          timeout={1000}
+                        />
+                      </div>
+                    )}
+                    {!likeloader && (
+                      <>
+                        {isLiked ? (
+                          <i
+                            className="far fa-thumbs-up"
+                            style={{ color: "var(--myColor)", fontWeight: 800 }}
+                          />
+                        ) : (
+                          <i class="far fa-thumbs-up"></i>
+                        )}
+                      </>
                     )}
                   </button>
                   <button
@@ -185,7 +198,6 @@ export const Watch = () => {
                     <small>2.17 M Subscribers</small>
                   </div>
                 </div>
-                <button className="btn">Subscribe</button>
               </div>
             </div>
           </div>

@@ -10,7 +10,7 @@
 }
 .video-container {
   display: flex;
-  margin-left: 6rem;
+  margin-left: 7rem;
   flex-wrap: wrap;
   justify-content: flex-start;
   list-style-type: none;
