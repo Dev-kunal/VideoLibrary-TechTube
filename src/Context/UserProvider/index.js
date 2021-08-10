@@ -12,7 +12,6 @@ setupAuthHeaderForServiceCalls(token);
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [state, userDispatch] = useReducer(userReducer, initialState);
-
   return (
     <AuthContext.Provider value={{ ...state, userDispatch }}>
       {children}

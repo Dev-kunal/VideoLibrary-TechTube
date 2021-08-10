@@ -36,6 +36,8 @@ export default function App() {
     if (token) {
       setupAuthHeaderForServiceCalls(token);
       setupAuthExceptionHandler(logOutUser, navigate);
+    } else {
+      navigate("/login");
     }
   }, []);
 
