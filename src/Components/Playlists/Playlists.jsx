@@ -3,8 +3,8 @@ import "./playlists.css";
 import { NavPane } from "../NavPane/NavPane";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
+import { getPlaylists } from "./services";
 
 export const Playlists = () => {
   const { playlists, dispatch } = useVideo();
@@ -12,28 +12,7 @@ export const Playlists = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { playlists, message, success } = await UseAxios(
-          "GET",
-          `/playlist`
-        );
-        setLoading(false);
-        if (!success) {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message },
-          });
-        }
-        dispatch({
-          type: "SET_PLAYLISTS",
-          payload: { playlists },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getPlaylists({ setLoading, dispatch });
   }, []);
 
   return (

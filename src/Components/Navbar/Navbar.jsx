@@ -4,13 +4,8 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "../../Context/UserProvider";
 
 export const Navbar = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
   const { token } = useAuth();
-  const handleSearchClick = (searchTerm) => {
-    // make search according to searchTerm
-    setShowSearch(!showSearch);
-  };
+
   return (
     <div className="navbar navbar-right">
       <div className="nav-brand">
@@ -23,28 +18,7 @@ export const Navbar = () => {
           Tech<span style={{ color: "var(--myColor)" }}>Tube</span>
         </Link>
       </div>
-
-      {/* {showSearch && (
-        <input
-          autoFocus
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          className="search-bar input line-input input-md"
-          placeholder="&#xF002; Search"
-          type="text"
-          style={{ fontFamily: "Arial,FontAwesome", color: "#181818" }}
-        />
-      )} */}
       <div className={token ? "nav-group" : "nav-group-baseline"}>
-        {/* <div className="nav-item">
-          <button
-            className="search-btn"
-            onClick={() => handleSearchClick(searchTerm)}
-          >
-            {" "}
-            <i className="fa fa-search" />
-          </button>
-        </div> */}
         <div>
           {token ? (
             <Link to="/user">

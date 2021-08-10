@@ -1,9 +1,9 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./auth.css";
-import { UseAxios } from "../../Utils/UseAxios";
 import { useVideo } from "../../Context/VideoProvider";
 import Loader from "react-loader-spinner";
+import { signUpUser } from "./services";
 export const Signup = () => {
   const [loading, setLoading] = useState(false);
   const toast = useRef(null);
@@ -29,40 +29,18 @@ export const Signup = () => {
       };
     });
   };
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
-    (async () => {
-      try {
-        const { success, message } = await UseAxios(
-          "POST",
-          `/user/signup`,
-          userDetails
-        );
-        console.log(success, message);
-        setLoading(false);
-        if (!success) {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-        } else {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-          setUserDetails({
-            username: "",
-            password: "",
-            fullname: "",
-            email: "",
-          });
-        }
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-      }
-    })();
+    const res = await signUpUser({ dispatch, setLoading, userDetails });
+    if (res) {
+      setUserDetails({
+        username: "",
+        password: "",
+        fullname: "",
+        email: "",
+      });
+    }
   };
   return (
     <div className="login-page">

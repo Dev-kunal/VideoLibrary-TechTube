@@ -1,15 +1,11 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import {
-  UseAxios,
-  saveDataToLocalStorage,
-  setupAuthHeaderForServiceCalls,
-} from "../../Utils/UseAxios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import "./auth.css";
 import { useAuth } from "../../Context/UserProvider";
 import { useVideo } from "../../Context/VideoProvider";
+import { loginUser } from "./services";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -38,43 +34,22 @@ export const Login = () => {
       };
     });
   };
-  const handleFormSubmit = (event) => {
-    setLoading(true);
+  const formSubmit = async (event) => {
     event.preventDefault();
-    (async () => {
-      try {
-        const { success, message, token, user } = await UseAxios(
-          "POST",
-          `/user/login`,
-          userDetails
-        );
-
-        if (!success) {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-          setLoading(false);
-        } else {
-          saveDataToLocalStorage(token, user);
-          setupAuthHeaderForServiceCalls(token);
-          userDispatch({
-            type: "SET_LOGIN",
-            payload: { user, token },
-          });
-          setUserDetails({
-            username: "",
-            password: "",
-          });
-          setLoading(false);
-          // console.log(state.from);
-          navigate(state?.from ? state.from : "/");
-        }
-      } catch (err) {
-        setLoading(false);
-        console.log(err);
-      }
-    })();
+    setLoading(true);
+    const res = await loginUser({
+      userDetails,
+      dispatch,
+      userDispatch,
+      setLoading,
+    });
+    if (res) {
+      setUserDetails({
+        username: "",
+        password: "",
+      });
+      navigate(state?.from ? state.from : "/");
+    }
   };
   return (
     <div className="login-page">
@@ -82,10 +57,7 @@ export const Login = () => {
         <div className="form-header">
           <h2 style={{ margin: "1rem auto" }}>Login</h2>
         </div>
-        <form
-          onSubmit={(event) => handleFormSubmit(event)}
-          className="auth-form"
-        >
+        <form onSubmit={(event) => formSubmit(event)} className="auth-form">
           <div className="input-group">
             <label className="input-label" htmlFor="input-uname">
               Username

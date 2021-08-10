@@ -1,19 +1,19 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "./watch.css";
 import { useState, useEffect, useRef } from "react";
-import { PlaylistModal } from "../PlaylistModal ";
-import { NavPane } from "../NavPane/NavPane";
+import { PlaylistModal, NavPane } from "../../Components";
 import { useVideo } from "../../Context/VideoProvider";
 import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
 import { useAuth } from "../../Context/UserProvider";
+import { likeUnlikeVideo } from "./services";
 
 export const Watch = () => {
   const [isModalVisible, setModalVisibility] = useState(false);
   const { videoId } = useParams();
   const { dispatch, showToast, toastMessage, likedVideos, playlists } =
     useVideo();
-  const { token, user } = useAuth();
+  const { token } = useAuth();
   const toast = useRef(null);
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -30,43 +30,11 @@ export const Watch = () => {
     setModalVisibility(true);
   };
 
-  const likeVideo = () => {
-    const obj = {
+  const likeUnlike = () => {
+    const body = {
       videoId,
     };
-    (async () => {
-      try {
-        setLikeLoader(true);
-        const { liked } = await UseAxios("POST", `/videos/likeunlike`, obj);
-        console.log("liked or not", liked);
-        if (liked) {
-          setVideo((video) => {
-            return {
-              ...video,
-              isLiked: true,
-            };
-          });
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: "Added to liked videos" },
-          });
-        } else {
-          setVideo((video) => {
-            return {
-              ...video,
-              isLiked: false,
-            };
-          });
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: "Removed from liked videos" },
-          });
-        }
-        setLikeLoader(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    likeUnlikeVideo({ setLikeLoader, dispatch, setVideo, body });
   };
 
   useEffect(() => {
@@ -74,7 +42,6 @@ export const Watch = () => {
       try {
         setLoading(true);
         const { video, isLiked } = await UseAxios("GET", `/videos/${videoId}`);
-
         setVideo(modifyVideo(video, isLiked));
         setLoading(false);
       } catch (error) {
@@ -127,7 +94,7 @@ export const Watch = () => {
                 <div className="video-actions">
                   <button
                     className="btn btn-secondary"
-                    onClick={() => (token ? likeVideo() : navigate("/login"))}
+                    onClick={() => (token ? likeUnlike() : navigate("/login"))}
                   >
                     {likeloader && (
                       <div className="btn-container">

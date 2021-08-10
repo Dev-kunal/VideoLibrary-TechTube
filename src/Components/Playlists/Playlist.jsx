@@ -1,18 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { NavPane } from "../Components/NavPane/NavPane";
+import { NavPane } from "../NavPane/NavPane";
 import { useEffect, useState, useRef } from "react";
-import { UseAxios } from "./../Utils/UseAxios";
-
 import Loader from "react-loader-spinner";
-import { VideoCard } from "../Components/VideoCard/VideoCard";
-import { useVideo } from "../Context/VideoProvider";
+import { VideoCard } from "../VideoCard/VideoCard";
+import { useVideo } from "../../Context/VideoProvider";
+import { deleteAPlaylist, getAPlaylist } from "./services";
 
 export const Playlist = () => {
   const { playlistId } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [itemsInPlaylist, setItemsInPlaylist] = useState(null);
-  const { playlists, dispatch, showToast, toastMessage } = useVideo();
+  const { dispatch, showToast, toastMessage } = useVideo();
   const toast = useRef(null);
   if (showToast) {
     setTimeout(() => {
@@ -20,49 +19,19 @@ export const Playlist = () => {
     }, 2000);
   }
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { playlist } = await UseAxios("GET", `/playlist/${playlistId}`);
-
-        setItemsInPlaylist(playlist.videos);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getAPlaylist({ setLoading, setItemsInPlaylist, playlistId });
   }, []);
 
-  const deletePlaylist = () => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { deletedPlaylist, success, message } = await UseAxios(
-          "POST",
-          `/playlist/delete`,
-          {
-            playlistId,
-          }
-        );
-        if (!success) {
-          dispatch({
-            type: "SHOW_TOAST",
-            payload: { message: message },
-          });
-        }
-
-        dispatch({
-          type: "DELETE_PLAYLIST",
-          payload: { playlistId },
-        });
-        navigate("/playlists");
-
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+  const deletePlaylist = async () => {
+    const body = {
+      playlistId,
+    };
+    const res = await deleteAPlaylist({ dispatch, setLoading, body });
+    if (res) {
+      navigate("/playlists");
+    }
   };
+
   return (
     <>
       {loading ? (

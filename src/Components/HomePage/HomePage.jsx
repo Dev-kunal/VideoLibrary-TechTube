@@ -1,12 +1,12 @@
 import { VideoCard } from "../VideoCard/VideoCard";
 import "./homepage.css";
 import { useEffect, useRef, useState } from "react";
-import { UseAxios } from "../../Utils/UseAxios";
 import { useNavigate } from "react-router-dom";
 import { NavPane } from "../NavPane/NavPane";
 import { useVideo } from "../../Context/VideoProvider";
 import Loader from "react-loader-spinner";
 import { useAuth } from "../../Context/UserProvider";
+import { getVideos } from "./services";
 
 export const HomePage = () => {
   const { videos, dispatch, showToast, toastMessage } = useVideo();
@@ -31,25 +31,7 @@ export const HomePage = () => {
   };
   useEffect(() => {
     if (videos.length <= 0) {
-      (async () => {
-        try {
-          setLoading(true);
-          const { videos, success, message } = await UseAxios("GET", `/data`);
-          if (!success) {
-            dispatch({
-              type: "SHOW_TOAST",
-              payload: { message },
-            });
-          }
-          dispatch({
-            type: "SET_VIDEOS",
-            payload: { videos: videos },
-          });
-          setLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+      getVideos({ setLoading, dispatch });
     }
   }, []);
   const navigate = useNavigate();

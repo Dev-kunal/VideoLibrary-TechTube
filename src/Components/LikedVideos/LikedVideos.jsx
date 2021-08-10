@@ -1,10 +1,11 @@
-import { NavPane } from "../Components/NavPane/NavPane";
 import { useNavigate } from "react-router-dom";
-import { useVideo } from "../Context/VideoProvider";
+import { useVideo } from "../../Context/VideoProvider";
 import { useState, useEffect } from "react";
-import { UseAxios } from "../Utils/UseAxios";
+import { UseAxios } from "../../Utils/UseAxios";
 import Loader from "react-loader-spinner";
-import { VideoCard } from "./VideoCard/VideoCard";
+
+import { NavPane, VideoCard } from "..";
+import { getLikedVideos } from "./services";
 
 export const LikedVideos = () => {
   const navigate = useNavigate();
@@ -12,19 +13,7 @@ export const LikedVideos = () => {
   const { likedVideos, dispatch } = useVideo();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const { likedVideos } = await UseAxios("GET", `/videos/liked`);
-        dispatch({
-          type: "SET_LIKED_VIDEOS",
-          payload: { likedVideos: likedVideos.map((video) => video.videoId) },
-        });
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getLikedVideos({ setLoading, dispatch });
   }, []);
   return (
     <>

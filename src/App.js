@@ -1,21 +1,23 @@
-import { HomePage } from "./Components";
-import { Navbar } from "./Components";
 import "./styles.css";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Playlists } from "./Components";
-import { User } from "./Components";
-import { Watch } from "./Components";
-import { Playlist } from "./Components/Playlist";
-import { LikedVideos } from "./Components/LikedVideos";
-import { PrivateRoute } from "./Utils/PrivateRoute";
-import { Login } from "./Components/Authentication/Login";
-import { Signup } from "./Components/Authentication/Sigup";
 import { useAuth } from "./Context/UserProvider";
 import { useEffect } from "react";
 import {
   setupAuthHeaderForServiceCalls,
   setupAuthExceptionHandler,
 } from "./Utils/UseAxios";
+import {
+  HomePage,
+  Navbar,
+  Playlists,
+  User,
+  Watch,
+  Playlist,
+  LikedVideos,
+  Login,
+  Signup,
+} from "./Components";
+import { PrivateRoute } from "./Utils/PrivateRoute";
 
 export default function App() {
   const { token, userDispatch } = useAuth();
