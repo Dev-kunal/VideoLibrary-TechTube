@@ -1,14 +1,17 @@
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import { VideoProvider } from "./Context/reducer";
+import { AuthProvider } from "./Context/UserProvider";
+import { VideoProvider } from "./Context/VideoProvider/index";
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
   <Router>
-    <VideoProvider>
-      <App />
-    </VideoProvider>
+    <AuthProvider>
+      <VideoProvider>
+        <App />
+      </VideoProvider>
+    </AuthProvider>
   </Router>,
   rootElement
 );

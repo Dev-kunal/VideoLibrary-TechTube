@@ -1,24 +1,58 @@
-import { HomePage } from "./Components/HomePage/HomePage.";
-import { Navbar } from "./Components/Navbar/Navbar";
 import "./styles.css";
-import { Routes, Route } from "react-router-dom";
-import { Playlists } from "./Components/Playlists/Playlists";
-import { User } from "./Components/User/User";
-import { Watch } from "./Components/Watch/Watch";
-import { Playlist } from "./Components/Playlist";
-import { LikedVideos } from "./Components/LikedVideos";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import { useAuth } from "./Context/UserProvider";
+import { useEffect } from "react";
+import {
+  setupAuthHeaderForServiceCalls,
+  setupAuthExceptionHandler,
+} from "./Utils/UseAxios";
+import {
+  HomePage,
+  Navbar,
+  Playlists,
+  User,
+  Watch,
+  Playlist,
+  LikedVideos,
+  Login,
+  Signup,
+} from "./Components";
+import { PrivateRoute } from "./Utils/PrivateRoute";
 
 export default function App() {
+  const { token, userDispatch } = useAuth();
+  const navigate = useNavigate();
+
+  const logOutUser = () => {
+    localStorage.removeItem("session");
+    userDispatch({
+      type: "SET_LOGIN",
+      token: null,
+      user: null,
+    });
+  };
+
+  useEffect(() => {
+    if (token) {
+      setupAuthHeaderForServiceCalls(token);
+      setupAuthExceptionHandler(logOutUser, navigate);
+    } else {
+      navigate("/login");
+    }
+  }, []);
+
   return (
     <div className="App">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/playlists" element={<Playlists />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/playlists/:playlistId" element={<Playlist />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/watch/:videoId" element={<Watch />} />
-        <Route path="/likedvideos" element={<LikedVideos />} />
+        <PrivateRoute path="/playlists" element={<Playlists />} />
+        <PrivateRoute path="/user" element={<User />} />
+        <PrivateRoute path="/playlists/:playlistId" element={<Playlist />} />
+        <PrivateRoute path="/likedvideos" element={<LikedVideos />} />
       </Routes>
     </div>
   );

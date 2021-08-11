@@ -1,5 +1,5 @@
 .playlists-page {
-  padding: 2rem;
+  padding: 1rem;
 }
 .playlist-container {
   margin-left: 6rem;
@@ -12,7 +12,7 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  height: 83.6%;
+  height: 97%;
   width: 50%;
   background-color: var(--mygrey);
   opacity: 0.9;
@@ -25,4 +25,13 @@
   top: 4rem;
   right: 2.5rem;
   opacity: 1;
+}
+
+@media screen and (max-width: 767px) {
+  .playlist-container {
+    margin-left: 0rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

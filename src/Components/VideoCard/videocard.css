@@ -3,7 +3,7 @@
   margin: 0.9rem 0.3rem;
   box-shadow: none;
   border: none;
-  background-color: #f1efef;
+  background-color: #ffffff;
   max-width: 16.5rem;
   color: #181818;
   cursor: pointer;
@@ -18,6 +18,18 @@
 .video-text h4 {
   font-weight: 500;
 }
+.card-img {
+  position: relative;
+}
+.time-stamp {
+  background: var(--bgdark);
+  color: white;
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0rem;
+  font-size: x-small;
+  padding: 0 0.1rem;
+}
 
 .small {
   font-size: small;
@@ -31,6 +43,6 @@
 @media screen and (max-width: 767px) {
   .video-card {
     margin-bottom: 0.5rem;
-    max-width: 23rem;
+    min-width: 90vw;
   }
 }

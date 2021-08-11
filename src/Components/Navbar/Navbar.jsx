@@ -1,14 +1,11 @@
 import { useState } from "react";
 import "./navbar.css";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../Context/UserProvider";
 
 export const Navbar = () => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const handleSearchClick = (searchTerm) => {
-    // make search according to searchTerm
-    setShowSearch(!showSearch);
-  };
+  const { token } = useAuth();
+
   return (
     <div className="navbar navbar-right">
       <div className="nav-brand">
@@ -21,36 +18,21 @@ export const Navbar = () => {
           Tech<span style={{ color: "var(--myColor)" }}>Tube</span>
         </Link>
       </div>
-
-      {showSearch && (
-        <input
-          autoFocus
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          className="search-bar input line-input input-md"
-          placeholder="&#xF002; Search"
-          type="text"
-          style={{ fontFamily: "Arial,FontAwesome", color: "#181818" }}
-        />
-      )}
-      <div className="nav-group">
-        <div className="nav-item">
-          <button
-            className="search-btn"
-            onClick={() => handleSearchClick(searchTerm)}
-          >
-            {" "}
-            <i className="fa fa-search" />
-          </button>
-        </div>
+      <div className={token ? "nav-group" : "nav-group-baseline"}>
         <div>
-          <Link to="/user">
-            <img
-              className="avatar-small xs user"
-              src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png"
-              alt="Avatar"
-            />
-          </Link>
+          {token ? (
+            <Link to="/user">
+              <img
+                className="avatar-small xs user"
+                src="https://cdn2.iconfinder.com/data/icons/flatfaces-everyday-people-square/128/beard_male_man_face_avatar-512.png"
+                alt="Avatar"
+              />
+            </Link>
+          ) : (
+            <Link to="/login" className="login-link">
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>
