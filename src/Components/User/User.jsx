@@ -11,13 +11,8 @@ export const User = () => {
 
   const logout = () => {
     userDispatch({
-      type: "SET_LOGIN",
-      payload: { token: null, user: null },
-    });
-    dispatch({
       type: "LOGOUT",
     });
-    localStorage.removeItem("session");
     navigate("/");
   };
   return (

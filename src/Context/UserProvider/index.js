@@ -26,7 +26,13 @@ export const userReducer = (state, { type, payload }) => {
         token: payload.token,
         user: payload.user,
       };
-
+    case "LOGOUT":
+      localStorage.removeItem("session");
+      return {
+        ...state,
+        token: null,
+        user: null,
+      };
     default:
       return state;
   }
