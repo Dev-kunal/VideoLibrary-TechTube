@@ -24,11 +24,8 @@ export default function App() {
   const navigate = useNavigate();
 
   const logOutUser = () => {
-    localStorage.removeItem("session");
     userDispatch({
-      type: "SET_LOGIN",
-      token: null,
-      user: null,
+      type: "LOGOUT",
     });
   };
 
