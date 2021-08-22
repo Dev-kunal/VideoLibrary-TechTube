@@ -9,7 +9,6 @@ export const likeUnlikeVideo = async ({
   try {
     setLikeLoader(true);
     const { liked } = await UseAxios("POST", `/videos/likeunlike`, body);
-    console.log("liked or not", liked);
     if (liked) {
       setVideo((video) => {
         return {
