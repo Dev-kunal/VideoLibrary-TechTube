@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://techtube-server.herokuapp.com",
+  baseURL: "https://tech-tube-serverv1.herokuapp.com",
 });
 
 export const setupAuthHeaderForServiceCalls = (token) => {
