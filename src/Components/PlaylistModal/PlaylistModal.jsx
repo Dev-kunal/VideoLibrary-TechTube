@@ -110,7 +110,7 @@ export const PlaylistModal = ({
         )}
       </>
       {showToast && (
-        <div className="toast toast-n" ref={toast}>
+        <div className="flex items-baseline justify-between absolute bottom-8 right-8 border border-primary-color text-white rounded-md bg-primary-color p-2 text-sm " ref={toast}>
           <p>{toastMessage}</p>
           <button className="btn toast-btn">X</button>
         </div>

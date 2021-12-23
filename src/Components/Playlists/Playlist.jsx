@@ -53,7 +53,9 @@ export const Playlist = () => {
               title="Delete Playlist"
               onClick={() => deletePlaylist()}
             >
-              <i className="fas fa-trash"></i> Delete Playlist
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline-block " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg> Delete Playlist
             </button>
           </div>
           <aside className="hidden lg:fixed lg:left-0 lg:top-28 lg:flex lg:flex-col lg:p-4 lg:h-2/3 lg:text-center ">
@@ -83,7 +85,7 @@ export const Playlist = () => {
         </div>
       )}
       {showToast && (
-        <div className="toast toast-n" ref={toast}>
+        <div className="flex items-baseline justify-between absolute bottom-8 right-8 border border-primary-color text-white rounded-md bg-primary-color p-2 text-sm " ref={toast}>
           <p>{toastMessage}</p>
           <button className="btn toast-btn">X</button>
         </div>

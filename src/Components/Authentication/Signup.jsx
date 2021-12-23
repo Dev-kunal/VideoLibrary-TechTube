@@ -43,7 +43,7 @@ export const Signup = () => {
   };
   return (
     <div className="flex justify-center items-center">
-      <div className="border border-primary-color p-5">
+      <div className="border border-primary-color p-5 mt-3 rounded-lg">
         <div className="w-full text-center">
           <h2 className="mx-auto text-2xl font-bold text-primary-color">Sign-Up</h2>
         </div>
@@ -111,11 +111,11 @@ export const Signup = () => {
               value={userDetails.password}
             />
           </div>
-          <button type="submit" className="py-2 bg-primary-color w-11/12 rounded-md text-white font-bold">
+          <button type="submit" className="py-2 bg-primary-color w-11/12 rounded-md text-white font-bold outline-primary-color">
             Sign-Up
           </button>
           <br />
-          <span>
+          <span className="mt-1">
             <small className="text-slate-500">
               Already a member..? <Link to="/login" className="hover:text-primary-color underline">Login</Link>
             </small>
@@ -134,9 +134,8 @@ export const Signup = () => {
         </div>
       )}
       {showToast && (
-        <div className="toast toast-n" ref={toast}>
+        <div className="flex items-baseline justify-between absolute bottom-8 right-8 border border-primary-color text-white rounded-md bg-primary-color p-2 text-sm " ref={toast}>
           <p>{toastMessage}</p>
-          <button className="btn toast-btn">X</button>
         </div>
       )}
     </div>
