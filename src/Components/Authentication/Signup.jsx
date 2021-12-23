@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import "./auth.css";
 import { useVideo } from "../../Context/VideoProvider";
 import Loader from "react-loader-spinner";
 import { signUpUser } from "./services";
@@ -53,7 +52,7 @@ export const Signup = () => {
           className="text-primary-color p-5"
         >
           <div className="min-w-40 mb-4">
-            <label className="mb-9" for="input-email">
+            <label className="mb-9" htmlFor="input-email">
               Email
             </label>
             <input
@@ -68,7 +67,7 @@ export const Signup = () => {
             />
           </div>
           <div className="min-w-40 mb-4">
-            <label className="mb-9" for="input-uname">
+            <label className="mb-9" htmlFor="input-uname">
               Username
             </label>
             <input
@@ -83,7 +82,7 @@ export const Signup = () => {
             />
           </div>
           <div className="min-w-40 mb-4">
-            <label className="mb-9" for="input-fullname">
+            <label className="mb-9" htmlFor="input-fullname">
               Full Name
             </label>
             <input
@@ -98,7 +97,7 @@ export const Signup = () => {
             />
           </div>
           <div className="min-w-40 mb-4">
-            <label className="mb-9" for="input-pass">
+            <label className="mb-9" htmlFor="input-pass">
               Password
             </label>
             <input

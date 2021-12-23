@@ -1,5 +1,4 @@
 import { VideoCard } from "../VideoCard/VideoCard";
-import "./homepage.css";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavPane } from "../NavPane/NavPane";
@@ -38,7 +37,7 @@ export const HomePage = () => {
   return (
     <>
       {loading ? (
-        <div className="loader-container">
+        <div className="fixed top-0 left-0 h-screen w-full z-10 opacity-70 flex justify-center items-center bg-zinc-700">
           <Loader
             type="RevolvingDot"
             color="#2bc48a"
@@ -48,19 +47,19 @@ export const HomePage = () => {
           />
         </div>
       ) : (
-        <div className="homepage">
-          <aside className="sidebar">
+        <div className="p-4">
+          <aside className="hidden lg:fixed lg:left-0 lg:top-28 lg:flex lg:flex-col lg:p-4 lg:h-2/3 lg:text-center ">
             <NavPane />
           </aside>
 
-          <div className="mobile-nav">
+          <div className="flex justify-around bg-navbar-color text-black fixed bottom-0 left-0 z-10 w-full py-1 px-0 lg:hidden">
             <NavPane />
           </div>
 
-          <ul className="video-container">
+          <ul className="list-none ml-0 mb-8 justify-center items-center md:flex md:ml-28 md:flex-wrap md:justify-start">
             {videos.map((video) => {
               return (
-                <li key={video._id} onClick={() => videoClick(video._id)}>
+                <li className="last:pb-1 md:last:pb-0" key={video._id} onClick={() => videoClick(video._id)}>
                   <VideoCard video={video} />
                 </li>
               );
@@ -69,9 +68,9 @@ export const HomePage = () => {
         </div>
       )}
       {showToast && (
-        <div class="toast toast-n" ref={toast}>
+        <div className="toast toast-n" ref={toast}>
           <p>{toastMessage}</p>
-          <button class="btn toast-btn">X</button>
+          <button className="btn toast-btn">X</button>
         </div>
       )}
     </>

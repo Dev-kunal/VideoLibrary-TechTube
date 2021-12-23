@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@300&display=swap');
+
 :root{
     --primaryColor:#2bc48a;
     --bgColor:#dfe1e2;
     --borderColor:#cfd7de29;
-    --bgNavbar:#eff3f3
+    --bgNavbar:#eff3f3;
+}
+
+body {
+    font-family: 'Overpass', sans-serif;
 }

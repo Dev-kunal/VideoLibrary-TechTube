@@ -24,10 +24,12 @@ export const getAPlaylist = async ({
   setLoading,
   setItemsInPlaylist,
   playlistId,
+  setName
 }) => {
   try {
     setLoading(true);
     const { playlist } = await UseAxios("GET", `/playlist/${playlistId}`);
+    setName(playlist.playlistName)
     setItemsInPlaylist(playlist.videos);
     setLoading(false);
   } catch (error) {

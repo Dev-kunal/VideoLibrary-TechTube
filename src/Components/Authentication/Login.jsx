@@ -2,7 +2,6 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loader from "react-loader-spinner";
-import "./auth.css";
 import { useAuth } from "../../Context/UserProvider";
 import { useVideo } from "../../Context/VideoProvider";
 import { loginUser } from "./services";
@@ -48,6 +47,7 @@ export const Login = () => {
         username: "",
         password: "",
       });
+      // @ts-ignore
       navigate(state?.from ? state.from : "/");
     }
   };
