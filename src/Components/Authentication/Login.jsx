@@ -100,7 +100,7 @@ export const Login = () => {
         </form>
       </div>
       {loading && (
-        <div className="loader-container">
+        <div className="fixed top-0 left-0 h-screen w-full z-10 opacity-70 flex justify-center items-center bg-zinc-700">
           <Loader
             type="RevolvingDot"
             color="#2bc48a"
