@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://tech-tube-serverv1.herokuapp.com",
+  baseURL: "https://videolibraryserver.vercel.app",
 });
 
 export const setupAuthHeaderForServiceCalls = (token) => {
